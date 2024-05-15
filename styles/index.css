@@ -1,6 +1,11 @@
+
+
+
+
 /*----------------INDEX----------------*/
 
 *{
+   
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -169,7 +174,7 @@ padding: 10px 40px;
     /* Hide menu initially */
     .main .menu .list {
         display: none;/*pending to change*/
-        transform: translateX(100%);
+        /* transform: translateX(100%); */
         transition: all 0.3s ease;
       }
      
@@ -192,6 +197,7 @@ padding: 10px 40px;
     border: transparent;
     
   }
+  
   .main .menu .list .toggle-label-2{
     display: none;
   }
