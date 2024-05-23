@@ -50,7 +50,7 @@ padding: 10px 40px;
     grid-template-columns: minmax(200px, 3fr) 1fr;
 }
 
-.main .menu{
+.menu{
     position: fixed;/*  so that the menu remained fixed and visible on the screen (probably changed to sticky)*/
     top: 0;
     right: 0;
@@ -63,7 +63,7 @@ padding: 10px 40px;
     align-items: center;
 }
 
-.main .menu .list{
+ .menu .list{
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -71,7 +71,7 @@ padding: 10px 40px;
     align-items: center;
     
 }
-.main .menu .list .item{
+ .menu .list .item{
     width: 100%;
     padding: 10px;
     border: solid 1px rgba(0, 0, 0, 0.26);
@@ -79,7 +79,7 @@ padding: 10px 40px;
     justify-content: center;
     cursor: pointer;
 }
-.main .menu .list li:hover{
+.menu .list li:hover{
     transition: all 0.3s ease;
     scale: 1.1;    
 }
@@ -138,10 +138,10 @@ padding: 10px 40px;
     height: 100px;
     background-color: gray;
 }
-.main .menu .toggle-input { /*Hide the checkbox */
+.menu .toggle-input { /*Hide the checkbox */
     display: none;
   }
-  .main .menu .toggle-label{ /* Hide the simbol of the menu */
+ .menu .toggle-label{ /* Hide the simbol of the menu */
     display: none;
 }
 
