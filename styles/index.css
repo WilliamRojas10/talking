@@ -1,7 +1,5 @@
 /*----------------INDEX----------------*/
-
 *{
-
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,10 +7,10 @@
     text-decoration: none; /*To remove the underline from the "a" tag*/
     ;
 }
+
 body{
 background-color: #f0f4f8
 }
-
 
 a {
     width: 100%;
@@ -162,75 +160,52 @@ a {
 }
 
 
-/* Media Query */
-@media (min-width: 768px) {
-    .contact {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 10px 40px;
-    }
+/*-------------------MEET----------------*/  
 
-    .contact a {
-        margin: 0 20px;
-    }
+.meet {
+    display: flex;
+    width: 95%;
+    margin: 10px;
+ }
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas en el diseño de escritorio */
+    gap: 30px; /* Espacio entre las tarjetas */
+    padding: 40px;
+    margin-right: 20%;
+    width: 73%;
+    background-color: rgba(5, 125, 223, 0.205);
+    border-radius: 10px;
+}
 
-    .contact p {
-        margin: 0;
-    }
+.profiles {
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgb(36, 130, 146);
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
+    cursor: default;
+    padding: 20px;
+    text-align: center; /* Centra el contenido de cada card */
+}
+
+.profiles .agregar {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(49, 154, 240, 0.76);
+    border-radius: 10px 60px 30px;
+}
+
+.profiles .nombre h2 {
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.img-perfiles img {
+    max-width: 100%;
+    height: auto;
 }
 
 
-
-/*-------------------MEET----------------*/  
-    .meet{
-        display: flex;
-        padding: 40px;
-        margin-right: 20%;
-        flex-direction: column;
-        width: 73%;
-        background-color: rgba(12, 46, 73, 0.205);
-        border-radius: 10px;
-    }
-    
-      .card {
-        border-radius: 6px; /* Rounded edge for cards */
-        width: 100%;
-        overflow: hidden; /* Prevent content from spilling out of cards*/
-        background: #fff; /* Cards background color */
-        box-shadow: 0px 1px 10px rgba(0,0,0,0.2); /* Shadow for cards */
-        overflow: hidden;
-        cursor: default;
-        padding-bottom: 10px;
-       
-      }
-      .card .agregar {
-        margin-left: 30%;
-        padding: 10px;
-        background-color:  rgba(12, 122, 212, 0.219);
-    
-      }
-      .card .nombre h2{
-        margin-left: 13%;
-        font-weight: 400;
-    
-      }
-      .img-perfiles img {
-        max-width: 100%; /* Images fit the width of their container */
-        height: auto; /* Maintain the aspect ratio of images */
-        width: auto;
-    }
-    .row{
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-      gap: 10px;
-    }
-
-    .agregar{
-         border-radius: 10px 60px 30px;
-    }
-    
-    
 
       
 /*---------------COURSES----------------*/
@@ -243,10 +218,8 @@ a {
 .cuadros{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-   
+    gap: 10px;
 }
-
 
 .titulo-cursos{    
     margin-top: 20px; 
@@ -266,7 +239,6 @@ a {
 .boton:hover{
     background-color: #1c4c96;
 }
-
 
 .imagen img {
    width: 100%;
@@ -294,10 +266,7 @@ a {
     top: 100px; /* Adjust the vertical position as necessary */
     left: 50%; /* Adjust the horizontal position as necessary*/
     transform: translateX(-50%); 
-   
-  
 }
-    
 
 .profile-picture .container-img {
     height: 200px;
@@ -351,7 +320,6 @@ a {
     object-fit: cover;
 }
 
-
 .titleT {
     color: aliceblue;    
 }
@@ -379,13 +347,11 @@ a {
     .main .section .post .img-publication{
         min-height: auto;
     }
-
-
-
+    
     .menu{
         flex-direction: column;
         
-      }
+    }
     /* Hide menu initially */
      .menu .list {
         display: none;/*pending to change*/
@@ -452,15 +418,11 @@ a {
     height: auto;
     margin: 10px;
  }
- 
 }
 
 
 
 /*-----------LOGIN-----------*/
-/* General styles for body and html */
-
-  
   /* Header and animated background styles */
   .animated-header {
     position: relative;
@@ -499,8 +461,6 @@ a {
     font-size: 30px;
     text-align: left;
   }
-
-
   
   /* Keyframes for the background animation */
   @keyframes gradientAnimation {
@@ -514,37 +474,6 @@ a {
         background-position: 0% 50%;
     }
   }
-
-
-  
-  /* Responsive styles for smaller screens */
-  @media (max-width: 768px) {
-    .login-container {
-        padding: 1rem;
-        margin: 1rem;
-    }
-  
-    .login img {
-        max-width: 80px;
-    }
-  
-    .btn-info {
-        font-size: 0.9rem;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .login-container {
-        margin: 1rem 0.5rem;
-    }
-  
-    .btn-info {
-        font-size: 0.8rem;
-    }
-  }
-  
- 
-  
 
 
 /* General styles for all devices */
@@ -568,32 +497,6 @@ a {
     max-width: 100px;
 }
 
-/* Media Query for medium to small screens (tablets and large phones) */
-@media (max-width: 768px) {
-    .login-container {
-        padding: 1rem;
-        margin: 1rem;
-    }
-
-    .login img {
-        max-width: 80px;
-    }
-
-    .btn-info {
-        font-size: 0.9rem;
-    }
-}
-
-/* Media Querymóviles */
-@media (max-width: 576px) {
-    .login-container {
-        margin: 1rem 0.5rem;
-    }
-
-    .btn-info {
-        font-size: 0.8rem;
-    }
-}
 
 
 /*anime header*/ 
@@ -661,12 +564,12 @@ a {
 /* General styles */
 
 
-header {
+/* header {
     background-color: #007bff;
     color: #fff;
     padding: 1rem;
     text-align: center;
-}
+} */
 
 
 /* Register */
@@ -741,25 +644,182 @@ img .logo-registro {
     }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .register {
-        padding: 1rem;
-    }
+
+
+
+
+/*terminos y condiciones */
+header {
+    background-color: #a33535;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
 }
 
-/*media queries logo animated */
-@media (max-width: 768px) {
-    .speak {
-        width: 80px; /* Resize the logo for medium screens */
-        animation: rotate-slow 7s linear infinite;
-    }
+header h1 {
+    margin: 0;
+    font-size: 2em;
 }
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+section h2 {
+    color: #444;
+    margin-bottom: 10px;
+}
+
+section p {
+    text-align: justify;
+}
+
+footer {
+    background-color: #a33535;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer img {
+    vertical-align: middle;
+}
+
+.logo-green {
+    width: 50px;
+    height: auto;
+}
+
+/*-----------------MEDIA QUERIES-----------------*/
 
 @media (max-width: 480px) {
+    header h1 {
+        font-size: 1.2em;
+    }
+
+    main {
+        padding: 5px;
+    }
+
+    section h2 {
+        font-size: 1em;
+    }
+
+    section p {
+        font-size: 0.8em;
+    }
+
+    footer {
+        font-size: 0.8em;
+    }
+
+    footer img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .logo-green {
+        width: 30px;
+    }
+
+    /*MEET*/
+    .cards {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        padding: 20px;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    /**/
     .speak {
         width: 60px; /* Additional adjustment for smaller screens */
         animation: none; /* Disable animation on small screens */
     }
+
+    /*LOGIN*/
+    .login-container {
+        margin: 1rem 0.5rem;
+    }
+  
+    .btn-info {
+        font-size: 0.8rem;
+    }
 }
+
+
+
+
+
+@media (min-width: 768px) {
+    /*INDEX*/
+    .contact {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 40px;
+    }
+
+    .contact a {
+        margin: 0 20px;
+    }
+
+    .contact p {
+        margin: 0;
+    }
+    /*MEET*/
+    .cards {
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas en tablets */
+    }
+
+    /**/
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    section h2 {
+        font-size: 1.2em;
+    }
+
+    section p {
+        font-size: 0.9em;
+    }
+
+    .logo-green {
+        width: 40px; 
+    }
+    /**/
+    .register {
+        padding: 1rem;
+    }
+    .speak {
+        width: 80px; /* Resize the logo for medium screens */
+        animation: rotate-slow 7s linear infinite;
+    }
+    /*LOGIN*/
+    .login-container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+  
+    .login img {
+        max-width: 80px;
+    }
+  
+    .btn-info {
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+
+
 

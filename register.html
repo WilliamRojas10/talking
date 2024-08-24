@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="register, registrarse, login, ingresar, talking, aprender ingles">
 
     <title>Registro</title>
     <link rel="icon" href="images/wechat.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="styles/index.css">
 </head>
-<body>
 
-   
+<body>
     <main>
         <div class="register-container">
             <div class="register">
                 <div class="d-flex justify-content-center align-items-center">
-                    <img class="logo-register" src="images/wechat.png" alt="register-icon"/>
+                    <img class="logo-register" src="images/wechat.png" alt="register-icon" />
                 </div>
                 <form class="registerForm">
-                    <div class="d-flex justify-content-center align-items-center"><h4>Registro</h4></div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <h4>Registro</h4>
+                    </div>
 
                     <div class="input-group mt-3 justify-content-center">
-                        <label for="user">Usuario</label>
+                        <label for="nombre">Nombre</label>
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
-                        <input type="text" id="user" name="user" class="form-control" required>
+                        <input type="text" id="nombre" name="nombre" class="form-control" required>
+                    </div>
+                    
+                    <div class="input-group mt-3 justify-content-center">
+                        <label for="apellido">Apellido</label>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <input type="text" id="apellido" name="apellido" class="form-control" required>
+                    </div>
+
+                    <div class="input-group mt-3 justify-content-center">
+                        <label for="fecha-nacimiento">Fecha de Nacimiento </label>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" class="form-control" required>
                     </div>
 
                     <div class="input-group mt-3 justify-content-center">
@@ -42,6 +60,19 @@
                         <input type="password" id="password" name="password" class="form-control" required>
                     </div>
 
+                    <div class="input-group mt-3 justify-content-center">
+                        <label for="language">Idioma</label>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <select id="language" name="language" class="form-select" required>
+                            <option value="es">Español</option>
+                            <option value="en">Inglés</option>
+                            <option value="fr">Francés</option>
+                            <option value="de">Alemán</option>
+                            <option value="it">Italiano</option>
+                        </select>
+                    </div>
+
                     <div class="form-check mt-3">
                         <input type="checkbox" class="form-check-input" id="terms">
                         <label class="form-check-label" for="terms">Acepto los términos y condiciones</label>
@@ -53,6 +84,7 @@
         </div>
     </main>
 
-    <script src="./js/menu.js"></script>
+    
 </body>
+
 </html>
