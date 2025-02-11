@@ -1,15 +1,27 @@
 /*----------------INDEX----------------*/
+:root{
+    --color-principal: #0083b0;
+    --backgroud-color: white;
+    --font-color: black;
+    --backgroud-color-secondary: #f8f8f8;
+
+    /* --backgroud-color: #000000;
+    --font-color: white;
+    --backgroud-color-secondary: #f8f8f8;
+    --backgroud-color-secondary: #2c2c2c; */
+
+}
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     list-style: none;
     text-decoration: none; /*To remove the underline from the "a" tag*/
-    ;
 }
 
 body{
-background-color: #f0f4f8
+background-color: var(--backgroud-color-secondary);
 }
 
 a {
@@ -30,27 +42,102 @@ a {
     align-items: center ;
     gap: 10px;
 }
+.header .perfil a{
+    color: white;
+}
 
 .main .section .my-post{
     display: flex;
-    gap: 10px;
+    align-items: center;
 }
-.main .section .my-post input{
-    width: calc(100% - 80px);
-    border: solid 1px rgba(0, 0, 0, 0.26);
-    border-radius: 20px;  
+.main .section .my-post .input-description{
+    flex: 3;
+    border: solid 1px rgba(207, 207, 207, 0.89);
+    color: var(--font-color);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     padding: 0 10px;
+    background-color: var(--backgroud-color);
+    height: 60px;
+    outline: none;
 }
 
-.img-perfil{ /*container for the circular image of each user's profile*/
-    width: 80px;
-    height: 80px;
+.main .section .my-post .input-description::placeholder{
+    color: var(--font-color);
 }
-.img-perfil img{ /*for the circular profile image of each user*/
+.main .section .my-post .label-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    border-left: none;
+    padding: 10px;
+    cursor: pointer;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 60px;
+   background-color: var(--backgroud-color);
+
+}
+.main .section .my-post .label-image i{
+    font-size: 25px;
+    color: var(--font-color);
+}
+.main .section .my-post .label-image i.active {
+    animation: walter-fill 2s linear forwards;
+}
+.main .section .my-post .send{
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: var(--backgroud-color);
+    border: 1px solid #ccc;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.main .section .my-post .send i{
+    font-size: 25px;
+    color: var(--font-color);
+}
+
+@keyframes walter-fill{
+    0% {
+        color: rgb(200, 238, 200);
+        transform: scale(1);
+    }
+    80%{
+        color: rgb(64, 240, 240);
+        transform: scale(1.2);
+
+    }
+    100%{
+        color: #0083b0;
+        transform: scale(1);
+    }
+}
+
+.main .section .my-post input[type="file"] {
+    display: none;
+  }
+
+.main .section .my-post .my-img-perfil{ /*container for the circular image of each user's profile*/
+    width: 70px;
+    height: 70px;
+}
+.main .section .my-post .my-img-perfil img{ /*for the circular profile image of each user*/
    height: 100%;
    width: 100%;
    border-radius: 50%;
 }
+
+
+
+
+
+
 
 
 .main{
@@ -72,26 +159,35 @@ a {
 }
 
  .menu .list{
+    padding: 10px;
     width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: var(--backgroud-color);
+    color: var(--font-color);
+
     
 }
 .menu .list .item{
     width: 100%;
     padding: 10px;
-    border: solid 1px rgba(0, 0, 0, 0.26);
+    border: solid 1px rgba(207, 207, 207, 0.89);
+
     display: flex;
     justify-content: center;
     cursor: pointer;
+    
 }
  .menu .list li:hover{
     transition: all 0.3s ease;
     scale: 1.1;    
 }
+.menu .list li a{
+    color: var(--font-color);
 
+}
 .main .section{
     display: grid;
     justify-content: center;
@@ -102,10 +198,12 @@ a {
 .main .section .post{
     display: flex;
     flex-direction: column;
-    border: solid 1px rgba(0, 0, 0, 0.26);
+    border: solid 1px rgba(207, 207, 207, 0.89);
+
     padding: 15px;
     border-radius: 20px;
     gap: 10px;
+    background-color: var(--backgroud-color);
     
 }
 .main .section .post .container {
@@ -113,19 +211,36 @@ a {
     align-items: center;
     gap: 10px; 
 }
+.main .section .post .container .name-person ,
+.main .section .post .description{
 
-.main .section .post .container img{
+    color: var(--font-color);
+}
+
+.main .section .post .container .img-perfil{ /*container for the circular image of each user's profile*/
+    width: 80px;
+    height: 80px;
+}
+.main .section .post .container .img-perfil img{ /*for the circular profile image of each user*/
+   height: 100%;
+   width: 100%;
+   border-radius: 50%;
+}
+
+
+/* .main .section .post .container img{
     height: 100%;
     width: 100%;
     border-radius: 50% ;
-}
+} */
 
 .main .section .post .img-publication{
-    border: solid 1px rgba(0, 0, 0, 0.11);
+    border: solid 1px rgba(236, 236, 236, 0.89);
     display: flex;
     justify-content: center;
     max-height: 500px;
     min-height: 400px; 
+    background-color: lue;
 }
 
 .main .section .post .img-publication img{ 
