@@ -1,75 +1,45 @@
-const API_URL = "http://localhost:5296/api/courses"; // Asegúrate de que la ruta sea correcta
-let currentPage = 1;
-let pageSize = 2; // Define cuántos cursos mostrar por página
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9ycy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoid2lsbGlhbUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiVXNlcklkIjoiNCIsImV4cCI6MTczOTA1MTc2NiwiaXNzIjoiYXBpLnRhbGtpbmciLCJhdWQiOiJhcGkudGFsa2luZy51c2VycyJ9.iBGA7erHDA0FwqTZTTXqKouaGryxeoayEgxoK5JSwXA';
 
-// Función para obtener cursos desde la API
-async function fetchCourses(page) {
+const API_URL = 'http://localhost:5296/api/Course'; // Ajusta la URL según tu API
+
+export const pagedCourse = async (page, pageSize) => {
     try {
-        const response = await fetch(`${API_URL}?page=${page}&size=${pageSize}`);
-        const data = await response.json();
-        console.log("Respuesta de la API:", data); // Depuración
-
-        if (!response.ok) {
-            throw new Error("Error al obtener los cursos");
-        }
-
-        renderCourses(data.data);
-        renderPagination(data.totalPages);
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-    }
-}
-
-// Función para renderizar los cursos en el HTML
-function renderCourses(courses) {
-    const container = document.getElementById("course-container");
-    container.innerHTML = ""; // Limpiar contenido anterior
-
-    courses.forEach(course => {
-        console.log("Curso recibido:", course); // Depuración
-
-        const courseElement = document.createElement("section");
-        courseElement.classList.add("idioma");
-
-        courseElement.innerHTML = `
-            <h2>${course.nombre ?? "Sin nombre"}</h2>
-            <div class="imagen">
-                <img src="${course.imagen ?? "default.jpg"}" alt="Imagen del curso">
-            </div>
-            <p>${course.descripcion ?? "Sin descripción disponible"}</p>
-            <a href="${course.link ?? "#"}" target="_blank">
-                <button class="boton">+ Info</button>
-            </a>
-        `;
-
-        container.appendChild(courseElement);
-    });
-}
-
-// Función para crear botones de paginación
-function renderPagination(totalPages) {
-    const paginationContainer = document.getElementById("pagination-container");
-    paginationContainer.innerHTML = ""; // Limpiar botones anteriores
-
-    for (let i = 1; i <= totalPages; i++) {
-        const button = document.createElement("button");
-        button.textContent = i;
-        button.classList.add("pagination-button");
-
-        if (i === currentPage) {
-            button.classList.add("active");
-        }
-
-        button.addEventListener("click", () => {
-            currentPage = i;
-            fetchCourses(currentPage);
+        const response = await fetch(`${API_URL}/paginado?page=${page}&pageSize=${pageSize}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
         });
 
-        paginationContainer.appendChild(button);
-    }
-}
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status}`);
+        }
 
-// Cargar cursos al iniciar la página
-document.addEventListener("DOMContentLoaded", () => {
-    fetchCourses(currentPage);
-});
+        return await response.json();
+    } catch (error) {
+        console.error('Error:', error);
+        return null; // Para manejar errores sin romper el código
+    }
+};
+
+export const getCourseById = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error:', error);
+        return null; // Para manejar errores sin romper el código
+    }
+};

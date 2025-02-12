@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="aprender inglés gratis, cursos de inglés, práctica de inglés, conversación en inglés">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>INICIO</title>
     <link rel="stylesheet" href="styles/index.css">
 
@@ -20,61 +20,32 @@
                 <div class="img-perfil">
                     <img src="./images/perfil.png" alt="profile picture">
                 </div>
-                <a href="#">nombre de perfil</a>
+                <a href="./profile.html">nombre de perfil</a>
             </div>
         </header>
 
     <main>
     
-        <div class="main">
-               
+        <div class="main">               
                 <section class="section">
+                    <div class="my-post" style="font-size: 30px;">
+                        No hay posteos
+                    </div>
                     <div class="my-post">
-                        <div class="img-perfil">
+                        <div class="my-img-perfil">
                             <img src="./images/perfil.png" alt="profile picture">
                         </div>
-                        <input type="text" placeholder="¿Que estas pensando?">
+                        <input class="input-description" type="text" placeholder="¿Qué estás pensando?">
+            
+                        <label for="file-upload" class="label-image">
+                            <i class="bi bi-file-image"></i>
+                        </label>
+                        <input id="file-upload" type="file" accept="image/*" />
+                        <button type="submit" id="send" class="send"><i class="bi bi-send"></i> </button>
                     </div>
                 
-                    <!-- Posting of each user -->
-                    <article class="post">
-                        <div class="container">
-                            <div class="img-perfil">
-                                <img src="./images/ciudad.jpeg" alt="">
-                            
-                            </div>
-                            <a href="#">Matt Daemon</a>
-                        </div>
-                        <p>Espacio de publicacion</p>
-                        <div class="img-publication">
-                            <img src="./images/pasadoContinuo.jpg" alt="publication image">
-                        </div>
-                        <div class="buttons-post">
-                            <button>Reaccionar</button>
-                            <button>Comentar</button>
-                            <button>Compartir</button>
-                        </div>
-                    </article>
-                
-                
-                    <article class="post">
-                        <div class="container">
-                            <div class="img-perfil">
-                                <img src="./images/ciudad.jpeg" alt="">
-                            
-                            </div>
-                            <a href="#">Maria Lopez</a>
-                        </div>
-                        <p>Espacion publicacion Lorem ipsum, dolor sit amet consectetur adipisicing elit. Esse officia excepturi animi voluptas assumenda asperiores. Voluptatibus, at. Nostrum blanditiis eum modi nemo nam ut odio corporis in? Eligendi, perspiciatis maxime.</p>
-                        <div class="img-publication">
-                            <img src="./images/verbToBe.png" alt="publication image">
-                        </div>
-                        <div class="buttons-post">
-                            <button>Reaccionar</button>
-                            <button>Comentar</button>
-                            <button>Compartir</button>
-                        </div>
-                    </article>
+            
+                      
                 </section>
             
             
@@ -108,7 +79,7 @@
         </div>
     </main>
 
-        <footer class="contact">
+        <!-- <footer class="contact">
             <div>
                 <p>Terminos y Condiciones </P>
                     <a href="./terminos.html"><img src="images/wechat.png" alt="logo-terminos" class="logo-green" ></a>
@@ -124,10 +95,12 @@
 
             
 
-        </footer>
+        </footer> -->
 
 
-    <script src="./index.js"></script>  
+    <script src="./js/post/ListPost.js"></script>  
+    <script src="./js/post/CreatePost.js"></script>  
+
         
 </body>
 
