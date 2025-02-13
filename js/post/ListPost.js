@@ -126,12 +126,20 @@ function setupPostSubmitListener() {
             }
 
             try {
+                const token = localStorage.getItem("token"); // Recuperar el token
+                if (!token) {
+                    console.log("INDEX : token nou-> ", token);
+                    alert("No hay token disponible");
+                    return;
+                }
+                console.log("INDEX : token -> ", token);
+
                 const response = await fetch("http://localhost:5296/api/Post", {
                     method: "POST",
                     body: formData,
                     headers: {
                         // No incluir 'Content-Type'
-                        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoid2lsbGlhbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJVc2VySWQiOiIxIiwiZXhwIjoxNzM5MjQwNzkzLCJpc3MiOiJhcGkudGFsa2luZyIsImF1ZCI6ImFwaS50YWxraW5nLnVzZXJzIn0.DJx6zfYPTkMdIDb67ubgT2Lkx421rUg-F5to5UbdljQ` // Tu token
+                        'Authorization': `Bearer ${token}`
                     }
                 });
 
@@ -143,6 +151,7 @@ function setupPostSubmitListener() {
                     alert("Error: " + result.message);
                 }
             } catch (error) {
+                alert("Error del front");
                 console.error("Error al subir el post:", error);
             }
         });

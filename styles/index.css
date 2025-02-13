@@ -1,56 +1,181 @@
-/*----------------INDEX----------------*/
-:root{
+/*----------------COMMON----------------*/
+:root {
     --color-principal: #0083b0;
     --backgroud-color: white;
     --font-color: black;
-    --backgroud-color-secondary: #f8f8f8;
+    --backgroud-color-secondary: #f8f8f8; 
 
-    /* --backgroud-color: #000000;
+     /* --backgroud-color: #000000;
     --font-color: white;
-    --backgroud-color-secondary: #f8f8f8;
-    --backgroud-color-secondary: #2c2c2c; */
+    --backgroud-color-secondary: #2c2c2c;  */
 
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     list-style: none;
-    text-decoration: none; /*To remove the underline from the "a" tag*/
+    text-decoration: none;
+    /*To remove the underline from the "a" tag*/
 }
 
-body{
-background-color: var(--backgroud-color-secondary);
+body {
+    /* border: solid 1px red; */
+    background-color: var(--backgroud-color-secondary);
 }
 
-a {
+
+label{
+    color: var(--font-color);
+}
+.animated-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    /* overflow: hidden; */
+}
+
+.animated-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    z-index: 0;
 }
-.header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.109);
-    padding: 10px 40px;
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
     }
 
-.header .perfil{
-    display: flex;
-    flex-direction: column;
-    align-items: center ;
-    gap: 10px;
-}
-.header .perfil a{
-    color: white;
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.main .section .my-post{
+.animated-header .animated-background .text-welcome {
+    color: var(--backgroud-color);
+}
+
+.animated-header .animated-background .container-logo .animated-logo {
+    height: 50px;
+    animation: growShrink 3s infinite;
+}
+
+@keyframes growShrink {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes rotateSlow {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*-----Menu-----*/
+
+.menu {
+    position: fixed;
+    /*  so that the menu remained fixed and visible on the screen (probably changed to sticky)*/
+    top: 0;
+    right: 0;
+
+    height: 100vh;
+    width: 26vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu .list {
+    padding: 10px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--backgroud-color);
+    color: var(--font-color);
+}
+
+.menu .list .item {
+    width: 100%;
+    padding: 10px;
+    border: solid 1px rgba(207, 207, 207, 0.89);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.menu .list li:hover {
+    transition: all 0.3s ease;
+    scale: 1.1;
+}
+
+.menu .list li a {
+    color: var(--font-color);
+
+}
+
+/*=============== INDEX ===============*/
+
+
+    /* .header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.109);
+        padding: 10px 40px;
+        }
+
+    .header .perfil{
+        display: flex;
+        flex-direction: column;
+        align-items: center ;
+        gap: 10px;
+    }
+    .header .perfil a{
+        color: white;
+    } */
+
+
+
+.index .main .section .my-post {
     display: flex;
     align-items: center;
 }
-.main .section .my-post .input-description{
+
+.index .main .section .my-post .input-description {
     flex: 3;
     border: solid 1px rgba(207, 207, 207, 0.89);
     color: var(--font-color);
@@ -62,10 +187,11 @@ a {
     outline: none;
 }
 
-.main .section .my-post .input-description::placeholder{
+.index .main .section .my-post .input-description::placeholder {
     color: var(--font-color);
 }
-.main .section .my-post .label-image{
+
+.index .main .section .my-post .label-image {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,17 +205,20 @@ a {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     height: 60px;
-   background-color: var(--backgroud-color);
+    background-color: var(--backgroud-color);
 
 }
-.main .section .my-post .label-image i{
+
+.index .main .section .my-post .label-image i {
     font-size: 25px;
     color: var(--font-color);
 }
-.main .section .my-post .label-image i.active {
+
+.index .main .section .my-post .label-image i.active {
     animation: walter-fill 2s linear forwards;
 }
-.main .section .my-post .send{
+
+.index .main .section .my-post .send {
     margin-left: 10px;
     padding: 10px 20px;
     background-color: var(--backgroud-color);
@@ -98,165 +227,129 @@ a {
     border-radius: 50%;
     cursor: pointer;
 }
-.main .section .my-post .send i{
+
+.index .main .section .my-post .send i {
     font-size: 25px;
     color: var(--font-color);
 }
 
-@keyframes walter-fill{
+@keyframes walter-fill {
     0% {
         color: rgb(200, 238, 200);
         transform: scale(1);
     }
-    80%{
+
+    80% {
         color: rgb(64, 240, 240);
         transform: scale(1.2);
 
     }
-    100%{
+
+    100% {
         color: #0083b0;
         transform: scale(1);
     }
 }
 
-.main .section .my-post input[type="file"] {
+.index .main .section .my-post input[type="file"] {
     display: none;
-  }
+}
 
-.main .section .my-post .my-img-perfil{ /*container for the circular image of each user's profile*/
+.index .main .section .my-post .my-img-perfil {
+    /*container for the circular image of each user's profile*/
     width: 70px;
     height: 70px;
 }
-.main .section .my-post .my-img-perfil img{ /*for the circular profile image of each user*/
-   height: 100%;
-   width: 100%;
-   border-radius: 50%;
-}
 
-
-
-
-
-
-
-
-.main{
-    display: grid;
-    grid-template-columns: minmax(200px, 3fr) 1fr;
-}
-
- .menu{
-    position: fixed;/*  so that the menu remained fixed and visible on the screen (probably changed to sticky)*/
-    top: 0;
-    right: 0;
-
-    height: 100vh;
-    width: 26vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
- .menu .list{
-    padding: 10px;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--backgroud-color);
-    color: var(--font-color);
-
-    
-}
-.menu .list .item{
+.index .main .section .my-post .my-img-perfil img {
+    /*for the circular profile image of each user*/
+    height: 100%;
     width: 100%;
-    padding: 10px;
-    border: solid 1px rgba(207, 207, 207, 0.89);
+    border-radius: 50%;
+}
 
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    
+/*==MENU==>*/
+.index .main {
+    display: grid;
+    grid-template-columns:1fr 300px;
 }
- .menu .list li:hover{
-    transition: all 0.3s ease;
-    scale: 1.1;    
-}
-.menu .list li a{
-    color: var(--font-color);
 
-}
-.main .section{
+
+/* | */
+.index .main .section {
     display: grid;
     justify-content: center;
     padding: 20px;
     gap: 20px;
+    width: 100%;
+
+
 }
 
-.main .section .post{
+.index .main .section .post {
     display: flex;
     flex-direction: column;
     border: solid 1px rgba(207, 207, 207, 0.89);
-
+    width: 100%;
     padding: 15px;
     border-radius: 20px;
     gap: 10px;
     background-color: var(--backgroud-color);
-    
+
 }
-.main .section .post .container {
+
+.index .main .section .post .container {
     display: flex;
     align-items: center;
-    gap: 10px; 
+    gap: 10px;
 }
-.main .section .post .container .name-person ,
-.main .section .post .description{
+
+.index .main .section .post .container .name-person,
+.index .main .section .post .description {
 
     color: var(--font-color);
 }
 
-.main .section .post .container .img-perfil{ /*container for the circular image of each user's profile*/
+.index .main .section .post .container .img-perfil {
+    /*container for the circular image of each user's profile*/
     width: 80px;
     height: 80px;
 }
-.main .section .post .container .img-perfil img{ /*for the circular profile image of each user*/
-   height: 100%;
-   width: 100%;
-   border-radius: 50%;
-}
 
-
-/* .main .section .post .container img{
+.index .main .section .post .container .img-perfil img {
+    /*for the circular profile image of each user*/
     height: 100%;
     width: 100%;
-    border-radius: 50% ;
-} */
+    border-radius: 50%;
+}
 
-.main .section .post .img-publication{
+.index .main .section .post .img-publication {
     border: solid 1px rgba(236, 236, 236, 0.89);
     display: flex;
     justify-content: center;
     max-height: 500px;
-    min-height: 400px; 
-    background-color: lue;
+    min-height: 400px;
 }
 
-.main .section .post .img-publication img{ 
+.index .main .section .post .img-publication img {
     height: 100%;
     max-width: 100%;
-    object-fit: cover;/*To prevent an image from being deformed and taking up the space established in CSS*/  
+    object-fit: cover;
+    /*To prevent an image from being deformed and taking up the space established in CSS*/
 }
- .menu .toggle-input { /*Hide the checkbox */
+
+.menu .toggle-input {
+    /*Hide the checkbox */
     display: none;
-  }
-   .menu .toggle-label{ /* Hide the simbol of the menu */
+}
+
+.menu .toggle-label {
+    /* Hide the simbol of the menu */
     display: none;
 }
 
 
-/* Footer */
+/*=== Footer ====*/
 .contact {
     display: flex;
     flex-direction: column;
@@ -275,17 +368,20 @@ a {
 }
 
 
-/*-------------------MEET----------------*/  
+/*-------------------MEET----------------*/
 
 .meet {
     display: flex;
     width: 95%;
     margin: 10px;
- }
+}
+
 .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Tres columnas en el diseño de escritorio */
-    gap: 30px; /* Espacio entre las tarjetas */
+    grid-template-columns: repeat(3, 1fr);
+    /* Tres columnas en el diseño de escritorio */
+    gap: 30px;
+    /* Espacio entre las tarjetas */
     padding: 40px;
     margin-right: 20%;
     width: 73%;
@@ -297,10 +393,11 @@ a {
     border-radius: 6px;
     overflow: hidden;
     background: rgb(36, 130, 146);
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
     cursor: default;
     padding: 20px;
-    text-align: center; /* Centra el contenido de cada card */
+    text-align: center;
+    /* Centra el contenido de cada card */
 }
 
 .profiles .agregar {
@@ -322,55 +419,55 @@ a {
 
 
 
-      
+
 /*---------------COURSES----------------*/
-.courses{
-   display: flex;
-   width: 70%;
-   margin: 10px;
+.courses {
+    display: flex;
+    width: 70%;
+    margin: 10px;
 }
 
-.cuadros{
+.cuadros {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 
-.titulo-cursos{    
-    margin-top: 20px; 
+.titulo-cursos {
+    margin-top: 20px;
 }
 
-.boton {    
+.boton {
     width: 100%;
-    text-align:center;
-    background-color:#7cd0ec; 
+    text-align: center;
+    background-color: #7cd0ec;
     border-radius: 10px 60px 30px;
     color: aliceblue;
     cursor: pointer;
     padding: 10px;
-    font-size: 20px;  
+    font-size: 20px;
 }
 
-.boton:hover{
+.boton:hover {
     background-color: #1c4c96;
 }
 
 .imagen img {
-   width: 100%;
+    width: 100%;
 }
 
 
 
 /*----------------PROFILE----------------*/
 
-.background-image{
-    height: 200px; 
+.background-image {
+    height: 200px;
     margin-bottom: 150px;
     /* background-image: url("../images/iphone8plusnegro.jpeg"); */
     background-color: rgba(92, 118, 204, 0.568);
 }
 
-.background-image img{
+.background-image img {
     height: 100%;
     width: 100%;
 }
@@ -378,9 +475,11 @@ a {
 .profile-picture {
     text-align: center;
     position: absolute;
-    top: 100px; /* Adjust the vertical position as necessary */
-    left: 50%; /* Adjust the horizontal position as necessary*/
-    transform: translateX(-50%); 
+    top: 100px;
+    /* Adjust the vertical position as necessary */
+    left: 50%;
+    /* Adjust the horizontal position as necessary*/
+    transform: translateX(-50%);
 }
 
 .profile-picture .container-img {
@@ -394,300 +493,87 @@ a {
     width: 100%;
 }
 
-.profile{
+.profile {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     margin-top: 100px;
 }
 
-.personal-information{
+.personal-information {
     padding: 20px;
     border-radius: 20px;
     border: solid 1px rgba(128, 128, 128, 0.527);
-    text-align: left; /* Align text to the left */
+    text-align: left;
+    /* Align text to the left */
     height: calc(100vh - 380px);
     margin-top: 100px;
 
 }
 
-.container-publication{
+.container-publication {
     display: grid;
-    gap:15px;
+    gap: 15px;
     padding: 0 20px;
     margin-top: 100px;
 }
 
-.container-publication .publication-space{
-   border: solid 1px rgba(128, 128, 128, 0.527);
+.container-publication .publication-space {
+    border: solid 1px rgba(128, 128, 128, 0.527);
     border-radius: 15px;
     padding: 10px;
 }
 
-.container-publication .publication-space .container-img {    
+.container-publication .publication-space .container-img {
     min-height: 200px;
     padding: 20px;
     border-radius: 20px;
 }
 
-.container-publication .publication-space .container-img img{
+.container-publication .publication-space .container-img img {
     height: 100%;
     max-width: 100%;
     object-fit: cover;
 }
 
 .titleT {
-    color: aliceblue;    
+    color: aliceblue;
 }
 
-.titulo{
-    padding: 25px;    
-}
-
-
-
-/*-----------------MEDIA QUERIES-----------------*/
-
-@media (max-width: 650px) {
-    .main{
-        grid-template-columns: 1fr;
-    }
-
-    .img-perfil{
-        height: 70px;
-        width: 70px;
-    }
-    .main .section{
-        padding: 5px;
-    }
-    .main .section .post .img-publication{
-        min-height: auto;
-    }
-    
-    .menu{
-        flex-direction: column;
-        
-    }
-    /* Hide menu initially */
-     .menu .list {
-        display: none;/*pending to change*/
-        /* transform: translateX(100%); */
-        transition: all 0.3s ease;
-        
-      }
-     
-  /* Show menu when checkbox is checked */
-     .menu .toggle-input:checked ~ .list{
-        display: flex;
-        transform: translateX(0%);
-        transition: all 0.5s ease;
-        background-color: rgb(122, 122, 141);
-        height: 100vh;
-        width: 70vw;
-        
-        position: fixed;
-        right: 0;
-        top: 0;
-        gap: 4rem;   
-  }
-
-  .menu .list .item{
-    border: transparent;
-    
-  }
-  
-   .menu .list .toggle-label-2{
-    display: none;
-  }
-  .menu .toggle-label{
-    display: grid;
-    position: absolute;
-    top: 50px;
-    right: 30px;
-    z-index: 10;
-    cursor: pointer;
-}
-  .header .title{
-    display: none;
-  }
-
-
-
-  
-  /*------------MEET-----------*/
-  .container{
-    width: 100%;
-  }
-  /*------------COURSES-----------*/
-  .courses{
-    width: 100%;
-  }
-  .cuadros{
-    grid-template-columns: 1fr;
-  }
-
-  /*------------PROFILE-----------*/
-  .profile{
-    grid-template-columns: 1fr;
- }
- .personal-information{
-    height: auto;
-    margin: 10px;
- }
+.titulo {
+    padding: 25px;
 }
 
 
-
-/*-----------LOGIN-----------*/
-  /* Header and animated background styles */
-  .animated-header {
-    position: relative;
-    width: 100%;
-    height: 100px; /* Set the height of the header */
-    overflow: hidden;
-  }
-  
-  .animated-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
-    z-index: 0; /* Background behind content */
-  }
-  
-  .header-content {
-    position: relative;
-    z-index: 1; /* Content above background */
-    text-align: center;
-    color: white;
-    padding: 60px 20px; /* Adjust padding for content positioning */
-  }
-  
-  .titleL img {
-    max-width: 50px;
-    vertical-align: middle;
-    margin-right: 10px;
-  }
-
-  .Welcome {
-    font-size: 30px;
-    text-align: left;
-  }
-  
-  /* Keyframes for the background animation */
-  @keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-  }
-
-
-/* General styles for all devices */
-.login-container {
-    background-color: #f0f0f0; 
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    
-
-    margin: 2rem auto;
-}
+/*========== LOGIN ==========*/
 
 .login {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--backgroud-color-secondary);
 }
 
-
-.login img {
-    max-width: 100px;
+.login .animated-header {
+    position: absolute;
 }
 
-
-
-/*anime header*/ 
-
-.header {
-    padding: 20px;
-    text-align: center;
-    background-color: #0083b0;
-}
-
-.title {
-    font-size: 2em;
-    color: white;
+.login .login-box {
+    background-color: var(--backgroud-color);
+    padding: 2rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    min-width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: growShrink 3s infinite;
-}
-
-.speak {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-    animation: growShrink 3s infinite, rotateSlow 10s infinite ;
-}
-
-@keyframes rotateSlow {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
-
-.perfil {
-    margin-top: 20px;
-}
-
-.img-perfil img {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-}
-
-.perfil a {
-    color: white;
-    text-decoration: none;
-    margin-left: 10px;
-    font-weight: bold;
-}
-
-@keyframes growShrink {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
+    margin: 2rem auto;
 }
 
 
-
-/* General styles */
-
-
-/* header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 1rem;
-    text-align: center;
-} */
-
-
-/* Register */
+/*========== REGISTER ==========*/
 .register-container {
     display: flex;
     justify-content: center;
@@ -732,7 +618,7 @@ a {
     border-radius: 4px;
 }
 
-.logo-register{
+.logo-register {
     max-width: 80px;
     min-width: 80px;
 }
@@ -740,7 +626,7 @@ a {
 
 img .logo-registro {
     max-width: 40px;
-    
+
 }
 
 /* Animations */
@@ -753,6 +639,7 @@ img .logo-registro {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -764,7 +651,7 @@ img .logo-registro {
 
 
 /*terminos y condiciones */
-header {
+/* header {
     background-color: #a33535;
     color: #fff;
     padding: 20px 0;
@@ -808,8 +695,92 @@ footer img {
     width: 50px;
     height: auto;
 }
+ */
+
+
+
+
+
 
 /*-----------------MEDIA QUERIES-----------------*/
+
+@media (max-width: 650px) {
+    .index .main {
+        grid-template-columns: 1fr;
+    }
+
+    .img-perfil {
+        height: 70px;
+        width: 70px;
+    }
+
+    .index .main .section {
+        padding: 5px;
+    }
+
+    .index .main .section .post .img-publication {
+        min-height: auto;
+    }
+    /*----Menu-----*/
+    .menu {
+        flex-direction: column;
+    }
+    .menu .list {
+        display: none;
+        transition: all 0.3s ease;
+    }
+     .menu .toggle-input:checked~.list {
+        display: flex;
+        transform: translateX(0%);
+        transition: all 0.5s ease;
+        background-color: rgb(122, 122, 141);
+        height: 100vh;
+        width: 70vw;
+
+        position: absolute;
+        right: 0;
+        top: 0;
+        gap: 4rem;
+    }
+    .menu .list .item {
+        border: transparent;
+    }
+    
+    .menu .toggle-label {
+        display: grid;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        z-index: 10;
+        cursor: pointer;
+        font-size: 30px;
+        color: var(--color-black);
+    }
+
+    /*------------MEET-----------*/
+    .container {
+        width: 100%;
+    }
+
+    /*------------COURSES-----------*/
+    .courses {
+        width: 100%;
+    }
+
+    .cuadros {
+        grid-template-columns: 1fr;
+    }
+
+    /*------------PROFILE-----------*/
+    .profile {
+        grid-template-columns: 1fr;
+    }
+
+    .personal-information {
+        height: auto;
+        margin: 10px;
+    }
+}
 
 @media (max-width: 480px) {
     header h1 {
@@ -843,7 +814,8 @@ footer img {
 
     /*MEET*/
     .cards {
-        grid-template-columns: 1fr; /* Una columna en móviles */
+        grid-template-columns: 1fr;
+        /* Una columna en móviles */
         padding: 20px;
         margin-right: 0;
         width: 100%;
@@ -851,25 +823,24 @@ footer img {
 
     /**/
     .speak {
-        width: 60px; /* Additional adjustment for smaller screens */
-        animation: none; /* Disable animation on small screens */
+        width: 60px;
+        /* Additional adjustment for smaller screens */
+        animation: none;
+        /* Disable animation on small screens */
     }
 
     /*LOGIN*/
     .login-container {
-        margin: 1rem 0.5rem;
+        margin: 1rem 0.2rem;
     }
-  
+
     .btn-info {
         font-size: 0.8rem;
     }
 }
 
-
-
-
-
 @media (min-width: 768px) {
+
     /*INDEX*/
     .contact {
         flex-direction: row;
@@ -884,9 +855,11 @@ footer img {
     .contact p {
         margin: 0;
     }
+
     /*MEET*/
     .cards {
-        grid-template-columns: repeat(2, 1fr); /* Dos columnas en tablets */
+        grid-template-columns: repeat(2, 1fr);
+        /* Dos columnas en tablets */
     }
 
     /**/
@@ -907,34 +880,33 @@ footer img {
     }
 
     .logo-green {
-        width: 40px; 
+        width: 40px;
     }
+
     /**/
     .register {
         padding: 1rem;
     }
+
     .speak {
-        width: 80px; /* Resize the logo for medium screens */
+        width: 80px;
+        /* Resize the logo for medium screens */
         animation: rotate-slow 7s linear infinite;
     }
-    /*LOGIN*/
-    .login-container {
-        padding: 1rem;
+
+    /*===LOGIN===*/
+    .login-box {
+        padding: 1rem 0.5rem;
         margin: 1rem;
     }
-  
-    .login img {
+
+    /* .login img {
         max-width: 80px;
-    }
-  
+    } */
+
     .btn-info {
         font-size: 0.9rem;
     }
+
+
 }
-
-
-
-
-
-
-
