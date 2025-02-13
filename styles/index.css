@@ -226,6 +226,7 @@ label{
     height: 60px;
     border-radius: 50%;
     cursor: pointer;
+    z-index: 1;
 }
 
 .index .main .section .my-post .send i {

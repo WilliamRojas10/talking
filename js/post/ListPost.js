@@ -118,6 +118,7 @@ function setupPostSubmitListener() {
                 alert("Debe ingresar una descripción o subir una imagen.");
                 return;
             }
+            
 
             const formData = new FormData();
             formData.append("description", description);
@@ -128,18 +129,16 @@ function setupPostSubmitListener() {
             try {
                 const token = localStorage.getItem("token"); // Recuperar el token
                 if (!token) {
-                    console.log("INDEX : token nou-> ", token);
-                    alert("No hay token disponible");
+                    console.error("No hay token disponible");
                     return;
                 }
-                console.log("INDEX : token -> ", token);
-
+        
                 const response = await fetch("http://localhost:5296/api/Post", {
                     method: "POST",
                     body: formData,
                     headers: {
-                        // No incluir 'Content-Type'
-                        'Authorization': `Bearer ${token}`
+                       
+                        'Authorization': `Bearer ${token}` // Tu token
                     }
                 });
 
@@ -148,10 +147,10 @@ function setupPostSubmitListener() {
                     alert("Post subido exitosamente.");
                     fetchPosts(currentPage); // Recargar los posts
                 } else {
+                    
                     alert("Error: " + result.message);
                 }
             } catch (error) {
-                alert("Error del front");
                 console.error("Error al subir el post:", error);
             }
         });
