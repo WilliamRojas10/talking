@@ -6,10 +6,7 @@ export const pagedCourse = async (page, pageSize) => {
     try {
         const response = await fetch(`${API_URL}/paginado?page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
+           
         });
 
         if (!response.ok) {
@@ -45,27 +42,27 @@ export const getCourseById = async (id) => {
 };
 
 // // Función para agregar un nuevo curso
-// export const addCourse = async (course) => {
-//     try {
-//         const response = await fetch(`${API_URL}`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${token}`
-//             },
-//             body: JSON.stringify(course)
-//         });
+export const addCourse = async (course) => {
+     try {
+         const response = await fetch(`${API_URL}`, {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json',
+                 'Authorization': `Bearer ${token}`
+             },
+             body: JSON.stringify(course)
+         });
 
-//         if (!response.ok) {
-//             throw new Error(`Error en la solicitud: ${response.status}`);
-//         }
+         if (!response.ok) {
+             throw new Error(`Error en la solicitud: ${response.status}`);
+         }
 
-//         return await response.json();
-//     } catch (error) {
-//         console.error('Error:', error);
-//         return null; // Para manejar errores sin romper el código
-//     }
-// };
+         return await response.json();
+     } catch (error) {
+         console.error('Error:', error);
+         return null; // Para manejar errores sin romper el código
+     }
+ };
 
 // // Función para actualizar un curso existente
 // export const updateCourse = async (id, updatedCourse) => {
@@ -113,31 +110,31 @@ export const getCourseById = async (id) => {
 // };
 
 // // Función para cargar cursos y paginación
-// const loadCourses = async (page, pageSize) => {
-//     const courseContainer = document.getElementById('course-container');
-//     const paginationContainer = document.getElementById('pagination-container');
+ const loadCourses = async (page, pageSize) => {
+     const courseContainer = document.getElementById('course-container');
+     const paginationContainer = document.getElementById('pagination-container');
 
-//     const data = await pagedCourse(page, pageSize);
-//     if (data) {
-//         courseContainer.innerHTML = '';
-//         data.courses.forEach(course => {
-//             const courseElement = document.createElement('div');
-//             courseElement.className = 'course';
-//             courseElement.innerHTML = `<h2>${course.name}</h2><p>${course.description}</p>`;
-//             courseContainer.appendChild(courseElement);
-//         });
+     const data = await pagedCourse(page, pageSize);
+     if (data) {
+         courseContainer.innerHTML = '';
+         data.courses.forEach(course => {
+             const courseElement = document.createElement('div');
+             courseElement.className = 'course';
+             courseElement.innerHTML = `<h2>${course.name}</h2><p>${course.description}</p>`;
+             courseContainer.appendChild(courseElement);
+         });
 
-//         paginationContainer.innerHTML = '';
-//         for (let i = 1; i <= data.totalPages; i++) {
-//             const pageButton = document.createElement('button');
-//             pageButton.innerText = i;
-//             pageButton.onclick = () => loadCourses(i, pageSize);
-//             paginationContainer.appendChild(pageButton);
-//         }
-//     } else {
-//         courseContainer.innerHTML = '<p>No se pudieron cargar los cursos.</p>';
-//     }
-// };
+         paginationContainer.innerHTML = '';
+         for (let i = 1; i <= data.totalPages; i++) {
+             const pageButton = document.createElement('button');
+             pageButton.innerText = i;
+             pageButton.onclick = () => loadCourses(i, pageSize);
+             paginationContainer.appendChild(pageButton);
+         }
+     } else {
+         courseContainer.innerHTML = '<p>No se pudieron cargar los cursos.</p>';
+     }
+ };
 
-// // Cargar la primera página de cursos al cargar la página
-// loadCourses(1, 10);
+ 
+ loadCourses(1, 10);
