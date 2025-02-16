@@ -5,22 +5,16 @@ let totalRecords = 0;
 
 // Función para obtener posts paginados desde el backend
 async function fetchPosts(page) {
-    async function fetchCourses(page) {
-        try {
-            const response = await fetch(`http://localhost:5296/api/course/paginado?pageNumber=${page}&pageSize=${coursesPerPage}`);
-    
-            if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
-            }
-    
-            const data = await response.json();
-            totalRecords = data.totalRecords;
-            renderCourses(data.courses);
-            renderPagination();
-        } catch (error) {
-            console.error("Error al obtener los cursos:", error);
-        }
-}
+    try {
+        const response = await fetch(`http://localhost:5296/api/Post/paginado?page=${page}&pageSize=${postsPerPage}`);
+        const data = await response.json();
+
+        totalRecords = data.totalRecords;
+        renderPosts(data.posts);
+        renderPagination();
+    } catch (error) {
+        console.error("Error al obtener los posts:", error);
+    }
 }
 
 // Función para renderizar los posts en el HTML
@@ -124,6 +118,7 @@ function setupPostSubmitListener() {
                 alert("Debe ingresar una descripción o subir una imagen.");
                 return;
             }
+            
 
             const formData = new FormData();
             formData.append("description", description);
@@ -132,12 +127,18 @@ function setupPostSubmitListener() {
             }
 
             try {
+                const token = localStorage.getItem("token"); // Recuperar el token
+                if (!token) {
+                    console.error("No hay token disponible");
+                    return;
+                }
+        
                 const response = await fetch("http://localhost:5296/api/Post", {
                     method: "POST",
                     body: formData,
                     headers: {
-                        // No incluir 'Content-Type'
-                        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoid2lsbGlhbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJVc2VySWQiOiIxIiwiZXhwIjoxNzM5MjQwNzkzLCJpc3MiOiJhcGkudGFsa2luZyIsImF1ZCI6ImFwaS50YWxraW5nLnVzZXJzIn0.DJx6zfYPTkMdIDb67ubgT2Lkx421rUg-F5to5UbdljQ` // Tu token
+                       
+                        'Authorization': `Bearer ${token}` // Tu token
                     }
                 });
 
@@ -146,6 +147,7 @@ function setupPostSubmitListener() {
                     alert("Post subido exitosamente.");
                     fetchPosts(currentPage); // Recargar los posts
                 } else {
+                    
                     alert("Error: " + result.message);
                 }
             } catch (error) {
