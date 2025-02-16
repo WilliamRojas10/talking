@@ -28,7 +28,8 @@ The following website as mentioned above is a social network to connect with peo
 ## Contribución/Contribution: 
 ## Catédra de Programación 3, Profesor Federico Piedrasanta.
 ## Catédra de Práctica 2, Profesor Eduardo Pesce.
-## Licencia: 
+## Licencia: GNU GENERAL PUBLIC LICENSE
+                       Version 3
 
 -----------------------------------------------------------------------------------------------------------
 #Group programming 2

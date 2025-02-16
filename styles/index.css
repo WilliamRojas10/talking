@@ -359,6 +359,32 @@ a {
    width: 100%;
 }
 
+/* Estilo para el contenedor de búsqueda */
+.search {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#course-level {
+    padding: 8px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#search-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#search-btn:hover {
+    background-color: #45a049;
+}
+
+
 
 
 /*----------------PROFILE----------------*/

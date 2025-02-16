@@ -109,32 +109,81 @@ export const addCourse = async (course) => {
 //     }
 // };
 
-// // Función para cargar cursos y paginación
- const loadCourses = async (page, pageSize) => {
-     const courseContainer = document.getElementById('course-container');
-     const paginationContainer = document.getElementById('pagination-container');
+// // // esta bien pero quiero probar otro Función para cargar cursos y paginación
+//  const loadCourses = async (page, pageSize) => {
+//      const courseContainer = document.getElementById('course-container');
+//      const paginationContainer = document.getElementById('pagination-container');
 
-     const data = await pagedCourse(page, pageSize);
-     if (data) {
-         courseContainer.innerHTML = '';
-         data.courses.forEach(course => {
-             const courseElement = document.createElement('div');
-             courseElement.className = 'course';
-             courseElement.innerHTML = `<h2>${course.name}</h2><p>${course.description}</p>`;
-             courseContainer.appendChild(courseElement);
-         });
+//      const data = await pagedCourse(page, pageSize);
+//      if (data) {
+//          courseContainer.innerHTML = '';
+//          data.courses.forEach(course => {
+//              const courseElement = document.createElement('div');
+//              courseElement.className = 'course';
+//              courseElement.innerHTML = `<h2>${course.name}</h2><p>${course.description}</p>`;
+//              courseContainer.appendChild(courseElement);
+//          });
 
-         paginationContainer.innerHTML = '';
-         for (let i = 1; i <= data.totalPages; i++) {
-             const pageButton = document.createElement('button');
-             pageButton.innerText = i;
-             pageButton.onclick = () => loadCourses(i, pageSize);
-             paginationContainer.appendChild(pageButton);
-         }
-     } else {
-         courseContainer.innerHTML = '<p>No se pudieron cargar los cursos.</p>';
-     }
- };
+//          paginationContainer.innerHTML = '';
+//          for (let i = 1; i <= data.totalPages; i++) {
+//              const pageButton = document.createElement('button');
+//              pageButton.innerText = i;
+//              pageButton.onclick = () => loadCourses(i, pageSize);
+//              paginationContainer.appendChild(pageButton);
+//          }
+//      } else {
+//          courseContainer.innerHTML = '<p>No se pudieron cargar los cursos.</p>';
+//      }
+//  };
 
  
- loadCourses(1, 10);
+//  loadCourses(1, 10);
+
+const loadCourses = async (page, pageSize, level) => {
+    const courseContainer = document.getElementById('course-container');
+    const paginationContainer = document.getElementById('pagination-container');
+
+    const data = await pagedCourse(page, pageSize, level); // Añadir 'level' a la llamada de la API
+
+
+    // Comprobación si los datos fueron recibidos correctamente
+    if (data) {
+        courseContainer.innerHTML = ''; // Limpiar el contenedor de cursos
+        data.courses.forEach(course => {
+            // Crear un nuevo div para cada curso
+            const courseElement = document.createElement('div');
+            courseElement.className = 'course';
+            courseElement.innerHTML = `
+                <h2>${course.name}</h2>
+                <p>${course.description}</p>
+            `;
+            // Añadirlo al contenedor
+            courseContainer.appendChild(courseElement);
+        });
+
+        paginationContainer.innerHTML = ''; // Limpiar la paginación
+
+        // Crear los botones de paginación
+        for (let i = 1; i <= data.totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.innerText = i;
+            pageButton.onclick = () => loadCourses(i, pageSize);
+
+            // Deshabilitar el botón si es la página actual
+            if (i === page) {
+                pageButton.disabled = true;
+            }
+
+            paginationContainer.appendChild(pageButton);
+        }
+    } else {
+        // Mostrar mensaje si no se pueden cargar los cursos
+        courseContainer.innerHTML = '<p>No se pudieron cargar los cursos.</p>';
+    }
+};
+
+// Llamar a la función pasando el nivel seleccionado
+document.getElementById('search-btn').addEventListener('click', () => {
+    const selectedLevel = document.getElementById('course-level').value;
+    loadCourses(1, 10, selectedLevel); // Recargar cursos con el nivel seleccionado
+});
