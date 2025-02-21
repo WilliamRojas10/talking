@@ -23,7 +23,7 @@ async function getPostsPaged(page = 1, pageSize = 10) {
     const response = await fetch(url, {
       method: 'GET',
     });
-    if (!response.ok) { ñpñpñ
+    if (!response.ok) { 
       throw new Error(`Error obteniendo posts: ${response.status}`);
     }
     const data = await response.json()
