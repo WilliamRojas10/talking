@@ -1,6 +1,6 @@
 /*----------------COMMON----------------*/
 :root {
-    --color-principal: #0083b0;
+    --color-principal: #71cef0;
     --backgroud-color: white;
     --font-color: black;
     --backgroud-color-secondary: #f8f8f8; 
@@ -23,6 +23,7 @@
 body {
     /* border: solid 1px red; */
     background-color: var(--backgroud-color-secondary);
+    /* width: 100vw; */
 }
 
 
@@ -117,6 +118,19 @@ label{
     align-items: center;
 }
 
+/* .menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
+
+
 .menu .list {
     padding: 10px;
     width: 50%;
@@ -145,6 +159,16 @@ label{
 .menu .list li a {
     color: var(--font-color);
 
+}
+
+.menu .toggle-input {
+    /*Hide the checkbox */
+    display: none;
+}
+
+.menu .toggle-label {
+    /* Hide the simbol of the menu */
+    display: none;
 }
 
 /*=============== INDEX ===============*/
@@ -226,7 +250,7 @@ label{
     height: 60px;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 1;
+     z-index: 1; 
 }
 
 .index .main .section .my-post .send i {
@@ -257,13 +281,11 @@ label{
 }
 
 .index .main .section .my-post .my-img-perfil {
-    /*container for the circular image of each user's profile*/
     width: 70px;
     height: 70px;
 }
 
 .index .main .section .my-post .my-img-perfil img {
-    /*for the circular profile image of each user*/
     height: 100%;
     width: 100%;
     border-radius: 50%;
@@ -278,8 +300,8 @@ label{
 
 /* | */
 .index .main .section {
-    display: grid;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     gap: 20px;
     width: 100%;
@@ -287,7 +309,13 @@ label{
 
 }
 
-.index .main .section .post {
+
+.index .main .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.index .main .posts-list .post {
     display: flex;
     flex-direction: column;
     border: solid 1px rgba(207, 207, 207, 0.89);
@@ -299,55 +327,145 @@ label{
 
 }
 
-.index .main .section .post .container {
+.index .main .posts-list .post .container {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.index .main .section .post .container .name-person,
-.index .main .section .post .description {
+.index .main .posts-list .post .container .name-person,
+.index .main .posts-list .post .description {
 
     color: var(--font-color);
 }
 
-.index .main .section .post .container .img-perfil {
-    /*container for the circular image of each user's profile*/
+.index .main .posts-list .post .container .img-perfil {
     width: 80px;
     height: 80px;
 }
 
-.index .main .section .post .container .img-perfil img {
-    /*for the circular profile image of each user*/
+.index .main .posts-list .post .container .img-perfil img {
     height: 100%;
     width: 100%;
     border-radius: 50%;
 }
 
-.index .main .section .post .img-publication {
+.index .main .posts-list .post .img-publication {
     border: solid 1px rgba(236, 236, 236, 0.89);
     display: flex;
     justify-content: center;
-    max-height: 500px;
+    max-height: 800px;
     min-height: 400px;
 }
 
-.index .main .section .post .img-publication img {
+.index .main .posts-list .post .img-publication img {
     height: 100%;
     max-width: 100%;
     object-fit: cover;
-    /*To prevent an image from being deformed and taking up the space established in CSS*/
 }
 
-.menu .toggle-input {
-    /*Hide the checkbox */
-    display: none;
+.index .main .posts-list .post .buttons-post {
+    display: flex;
+    /* justify-content: space-around; */
+    gap: 15px;
+}
+.index .main .posts-list .post .buttons-post .container-reactions{
+    display: flex;
+    gap: 10px;
+}
+.index .main .posts-list .post .buttons-post > *{
+    cursor: pointer;
 }
 
-.menu .toggle-label {
-    /* Hide the simbol of the menu */
-    display: none;
+.index .main .posts-list .post .container-comments .my-comment{
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    /* border: solid 1px red; */
 }
+.index .main .posts-list .post .container-comments .my-comment input{
+    color: var(--font-color);
+    background-color: var(--backgroud-color);
+    border: solid 1px rgba(196, 196, 196, 0.89);
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    width: fit-content;
+    outline:none;
+    width: 100%;
+
+}
+.index .main .posts-list .post .container-comments .my-comment input:hover{
+    /* outline:solid 2px var(--color-principal); */
+    border: solid 1px var(--color-principal);
+} 
+
+.index .main .posts-list .post .container-comments .my-comment .send-comment{
+    cursor: pointer;   
+    padding: 0 10px;
+}
+.index .main .posts-list .post .container-comments .my-comment .send-comment:hover{
+    border: solid 1px var(--color-principal);
+    color: var(--color-principal);
+}
+
+
+.index .main .posts-list .post .container-comments{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 10px;
+}
+.index .main .posts-list .post .container-comments .comment{
+    border: solid 1px rgba(196, 196, 196, 0.89);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-self: self-start;
+    gap: 10px;
+}
+.index .main .posts-list .post .container-comments .comment .comment-user
+{
+    font-weight: bold;
+}
+.index .main .posts-list .post .container-comments .comment .comment-user,
+.index .main .posts-list .post .container-comments .comment .text,
+.index .main .posts-list .post .container-comments .comment .comment-datetime {
+    font-size: 15px;
+    color: var(--font-color);
+}
+
+
+.container-pagination{
+    display: flex;
+}
+
+.container-pagination span{
+    font-size: 18px;
+    padding: 8px;
+    border: solid 1px rgba(236, 236, 236, 0.89);
+
+    cursor: pointer;
+}
+.container-pagination span:hover{
+    background-color: var(--color-principal);
+}
+.container-pagination .previous{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.container-pagination .next{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+} 
+
+
+
+
+
 
 
 /*=== Footer ====*/
@@ -601,78 +719,56 @@ label{
 
 
 /*========== REGISTER ==========*/
-.register-container {
+ .register-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+    margin: 50px 0;
+    background-color: var(--backgroud-color-secondary);
+} 
 
-
-.register {
-    background-color: #ffffff;
+.register-container .register {
+    background-color: var(--backgroud-color);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 2rem;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
 }
 
-.registerForm h4 {
+.register-container .register .register-form h4 {
     margin-bottom: 1.5rem;
 }
 
-.input-group label {
-    margin-bottom: 0.5rem;
-}
-
-.input-group input {
-    border-radius: 4px;
-    border: 1px solid #ced4da;
-    padding: 0.5rem;
-    width: 100%;
-}
-
-.form-check {
-    margin-top: 1rem;
-}
-
-.form-check-input {
-    margin-right: 0.5rem;
-}
-
-.btn {
-    border-radius: 4px;
-}
-
-.logo-register {
-    max-width: 80px;
-    min-width: 80px;
-}
-
-
-img .logo-registro {
-    max-width: 40px;
+.register-container .register .logo-register {
+    width: 50px;
+    width: 50px;
+    animation: fadeInDown 3s infinite ease-in-out;
 
 }
 
-/* Animations */
-.animated-header {
-    animation: fadeInDown 1s;
+.register-container .register .register-form div label{
+    color: var(--font-color);
+}
+.register-container .register .register-form div input,
+.register-container .register .register-form div select
+{
+    color: var(--font-color);
+    background-color: var(--backgroud-color);
 }
 
 @keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+    0%{
+        transform: scale(1);
+
+    }
+    30% {
+        transform: scale(1.2);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    90% {
+        transform: scale(1);
     }
 }
-
 
 
 
@@ -693,8 +789,7 @@ header h1 {
 main {
     padding: 20px;
 }
-
-section {
+.posts-list {
     margin-bottom: 20px;
 }
 
@@ -732,25 +827,51 @@ footer img {
 /*-----------------MEDIA QUERIES-----------------*/
 
 @media (max-width: 650px) {
+    .animated-header .animated-background .text-welcome{
+        font-size: 20px;
+    }
     .index .main {
         grid-template-columns: 1fr;
     }
+    .index .main .section .my-post .my-img-perfil
+    {
+        height: 50px;
+        width: 50px;
+    }
+    .index .main .section .my-post .input-description{
+        height: 50px;
+        flex: none;
+    }
+    .index .main .section .my-post .label-image{
+        height: 50px;
+    }
+    .index .main .section .my-post .send{
+        font-size: 15px;
+        padding: 10px;
+        height: 50px;
+    }
 
-    .img-perfil {
-        height: 70px;
-        width: 70px;
+    .index .main .section .posts-list .post .container .img-perfil {
+        height: 40px;
+        width: 40px;
     }
 
     .index .main .section {
         padding: 5px;
     }
+   
 
     .index .main .section .post .img-publication {
         min-height: auto;
     }
+
+
+    
     /*----Menu-----*/
     .menu {
         flex-direction: column;
+        
+        
     }
     .menu .list {
         display: none;
@@ -763,11 +884,12 @@ footer img {
         background-color: rgb(122, 122, 141);
         height: 100vh;
         width: 70vw;
+        z-index: 8;
 
         position: absolute;
         right: 0;
         top: 0;
-        gap: 4rem;
+        gap: 20px;
     }
     .menu .list .item {
         border: transparent;
@@ -775,9 +897,9 @@ footer img {
     
     .menu .toggle-label {
         display: grid;
-        position: absolute;
-        top: 30px;
-        right: 30px;
+        position:sticky;
+        top: 0px;
+        right: 0px;
         z-index: 10;
         cursor: pointer;
         font-size: 30px;
@@ -785,9 +907,9 @@ footer img {
     }
 
     /*------------MEET-----------*/
-    .container {
+    /* .container {
         width: 100%;
-    }
+    } */
 
     /*------------COURSES-----------*/
     .courses {
@@ -807,133 +929,13 @@ footer img {
         height: auto;
         margin: 10px;
     }
-}
 
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.2em;
-    }
-
-    main {
-        padding: 5px;
-    }
-
-    section h2 {
-        font-size: 1em;
-    }
-
-    section p {
-        font-size: 0.8em;
-    }
-
-    footer {
-        font-size: 0.8em;
-    }
-
-    footer img {
-        width: 20px;
-        height: 20px;
-    }
-
-    .logo-green {
-        width: 30px;
-    }
-
-    /*MEET*/
-    .cards {
-        grid-template-columns: 1fr;
-        /* Una columna en móviles */
-        padding: 20px;
-        margin-right: 0;
-        width: 100%;
-    }
-
-    /**/
-    .speak {
-        width: 60px;
-        /* Additional adjustment for smaller screens */
-        animation: none;
-        /* Disable animation on small screens */
-    }
-
-    /*LOGIN*/
-    .login-container {
-        margin: 1rem 0.2rem;
-    }
-
-    .btn-info {
-        font-size: 0.8rem;
-    }
-}
-
-@media (min-width: 768px) {
-
-    /*INDEX*/
-    .contact {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 10px 40px;
-    }
-
-    .contact a {
-        margin: 0 20px;
-    }
-
-    .contact p {
+    /*========== REGISTER ==========*/
+    .register-container {
         margin: 0;
+    } 
+    .register-container .register {
+        padding: 0.5rem;
     }
-
-    /*MEET*/
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-        /* Dos columnas en tablets */
-    }
-
-    /**/
-    header h1 {
-        font-size: 1.5em;
-    }
-
-    main {
-        padding: 10px;
-    }
-
-    section h2 {
-        font-size: 1.2em;
-    }
-
-    section p {
-        font-size: 0.9em;
-    }
-
-    .logo-green {
-        width: 40px;
-    }
-
-    /**/
-    .register {
-        padding: 1rem;
-    }
-
-    .speak {
-        width: 80px;
-        /* Resize the logo for medium screens */
-        animation: rotate-slow 7s linear infinite;
-    }
-
-    /*===LOGIN===*/
-    .login-box {
-        padding: 1rem 0.5rem;
-        margin: 1rem;
-    }
-
-    /* .login img {
-        max-width: 80px;
-    } */
-
-    .btn-info {
-        font-size: 0.9rem;
-    }
-
-
 }
+

@@ -1,81 +1,5 @@
-
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoid2lsbGlhbUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiVXNlcklkIjoiNCIsImV4cCI6MTczOTA1MTc2NiwiaXNzIjoiYXBpLnRhbGtpbmciLCJhdWQiOiJhcGkudGFsa2luZy51c2VycyJ9.iBGA7erHDA0FwqTZTTXqKouaGryxeoayEgxoK5JSwXA';
-
-
-export const pagedUser = async (page, pageSize) => {
-    try {
-        const response = await fetch(`http://localhost:5296/api/User/paginado?page=${page}&pageSize=${pageSize}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.status}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error('Error:', error);
-        return null; // Para manejar errores sin romper el código
-    }
-}
-
-export const getById = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:5296/api/User/${id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.status}`);
-            }
-    
-            return await response.json();
-        } catch (error) {
-            console.error('Error:', error);
-            return null; // Para manejar errores sin romper el código
-        }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Base URL de la API (ajusta el puerto si es necesario)
-const BASE_API_URL = 'http://localhost:5296/api/User';
+const BASE_API_URL = 'http://localhost:5296/api/Reaction';
 
 // (Opcional) Si manejas autenticación con token JWT, almacénalo aquí o recupéralo de localStorage
 let authToken = ''; // Ejemplo: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -93,14 +17,14 @@ function getToken() {
 /* ====================================================
    GET: Obtener posts paginados
 ==================================================== */
-async function getUsersPaged(page = 1, pageSize = 10) {
+async function getPostsPaged(page = 1, pageSize = 10) {
   const url = `${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}`;
   try {
     const response = await fetch(url, {
       method: 'GET',
     });
     if (!response.ok) {
-      throw new Error(`Error obteniendo users: ${response.status}`);
+      throw new Error(`Error obteniendo posts: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -112,36 +36,51 @@ async function getUsersPaged(page = 1, pageSize = 10) {
 /* ====================================================
    GET: Obtener un post por ID
 ==================================================== */
-async function getUserById(userId) {
-  const url = `${BASE_API_URL}/${userId}`;
+async function getReactionsByPost(idPost) {
+  console.log("idPost", idPost);
+  // Se usa el query string en lugar del path para enviar el parámetro
+  const url = `${BASE_API_URL}/reactionsByIdPost?idPost=${idPost}`;
   try {
     const response = await fetch(url, {
       method: 'GET',
-      headers: getToken()
+      // headers: getToken() // Descomenta y configura si es necesario
     });
+
     if (!response.ok) {
-      throw new Error(`Error obteniendo el user: ${response.status}`);
+      throw new Error(`Error obteniendo las reacciones: ${response.status}`);
     }
-    return await response.json();
+
+    // Leer la respuesta como texto para comprobar si está vacía
+    const text = await response.text();
+    if (!text) {
+      // Si la respuesta está vacía, devolvemos un objeto con valores por defecto
+      return { likes: 0, dislikes: 0 };
+    }
+
+    // Parsear el texto a JSON
+    const data = JSON.parse(text);
+    console.log("RESPONSE DE REACCIONES EN SERVICES", data);
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
   }
+
 }
 
 /* ====================================================
    PUT: Actualizar un post (modificar)
 ==================================================== */
-async function updateUser(userId, userData) {
-  const url = `${BASE_API_URL}/modificar/${userId}`;
+async function updatePost(postId, postData) {
+  const url = `${BASE_API_URL}/modificar/${postId}`;
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: getToken(),
-      body: JSON.stringify(userData)
+      body: JSON.stringify(postData)
     });
     if (!response.ok) {
-      throw new Error(`Error actualizando el user: ${response.status}`);
+      throw new Error(`Error actualizando el post: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -218,21 +157,27 @@ async function deletePost(postId) {
      - description: string
      - FileDTO.image: File  (campo "image" dentro del objeto FileDTO)
 ==================================================== */
-async function createUser(data) {
+async function createReaction(idPost, idReaction) {
   const url = `${BASE_API_URL}`;
   try {
     // No agregamos 'Content-Type' ya que fetch se encargará de establecerlo para FormData
+    console.log(idPost, "---" ,idReaction)
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json', // Especifica que se envía JSON
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        idPost,
+        idReaction // Ejemplo: 1 = Like, 2 = Dislike
+      })
     });
-    if (!response.ok) {
-      throw new Error(`Error creando el usuario: ${response.status}`);
-    }
-    return await response.json();
+    // if (!response.success) {
+    //   throw new Error(`Error creando una reaction: ${response.status}`);
+    // }
+    // console.log("EN response EN REACTION SERVICE", response)
+    return response.json();
   } catch (error) {
     console.error(error);
     throw error;
@@ -264,12 +209,12 @@ async function uploadPost(formData) {
    Exportar funciones para su uso en otros scripts
 ==================================================== */
 export {
-  getUsersPaged,
-  getUserById,
-  updateUser,
+  getPostsPaged,
+  getReactionsByPost,
+  updatePost,
   blockPost,
   activatePost,
   deletePost,
-  createUser,
+  createReaction,
   uploadPost
 };

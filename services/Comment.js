@@ -1,5 +1,5 @@
 // Base URL de la API (ajusta el puerto si es necesario)
-const BASE_API_URL = 'http://localhost:5296/api/Post';
+const BASE_API_URL = 'http://localhost:5296/api/Comment';
 
 // (Opcional) Si manejas autenticación con token JWT, almacénalo aquí o recupéralo de localStorage
 let authToken = ''; // Ejemplo: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -15,19 +15,20 @@ function getToken() {
 
 
 /* ====================================================
-   GET: Obtener posts paginados
+   GET: Obtener Comments paginados
 ==================================================== */
-async function getPostsPaged(page = 1, pageSize = 10) {
-  const url = `${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}`;
+// http://localhost:5296/api/Comment/paginado?page=1&pageSize=10&idPost=1
+async function getCommentsPaged(idPost, page = 1, pageSize = 10) {
+  const url = `${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}&idPost=${idPost}`;
   try {
     const response = await fetch(url, {
       method: 'GET',
     });
-    if (!response.ok) { ñpñpñ
-      throw new Error(`Error obteniendo posts: ${response.status}`);
+    if (!response.ok) { 
+      throw new Error(`Error obteniendo comments: ${response.status}`);
     }
     const data = await response.json()
-    console.log("Response list post: ",data)
+    console.log("Response list comment: ",data)
     return data
 
   } catch (error) {
@@ -37,17 +38,17 @@ async function getPostsPaged(page = 1, pageSize = 10) {
 }
 
 /* ====================================================
-   GET: Obtener un post por ID
+   GET: Obtener un comment por ID
 ==================================================== */
-async function getPostById(postId) {
-  const url = `${BASE_API_URL}/${postId}`;
+async function getCommentById(commentId) {
+  const url = `${BASE_API_URL}/${commentId}`;
   try {
     const response = await fetch(url, {
       method: 'GET',
       headers: getToken()
     });
     if (!response.ok) {
-      throw new Error(`Error obteniendo el post: ${response.status}`);
+      throw new Error(`Error obteniendo el comment: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -57,18 +58,18 @@ async function getPostById(postId) {
 }
 
 /* ====================================================
-   PUT: Actualizar un post (modificar)
+   PUT: Actualizar un comment (modificar)
 ==================================================== */
-async function updatePost(postId, postData) {
-  const url = `${BASE_API_URL}/modificar/${postId}`;
+async function updateComment(commentId, commentData) {
+  const url = `${BASE_API_URL}/modificar/${commentId}`;
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: getToken(),
-      body: JSON.stringify(postData)
+      body: JSON.stringify(commentData)
     });
     if (!response.ok) {
-      throw new Error(`Error actualizando el post: ${response.status}`);
+      throw new Error(`Error actualizando el comment: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -78,17 +79,17 @@ async function updatePost(postId, postData) {
 }
 
 /* ====================================================
-   PUT: Bloquear un post
+   PUT: Bloquear un comment
 ==================================================== */
-async function blockPost(postId) {
-  const url = `${BASE_API_URL}/bloquear/${postId}`;
+async function blockComment(commentId) {
+  const url = `${BASE_API_URL}/bloquear/${commentId}`;
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: getToken()
     });
     if (!response.ok) {
-      throw new Error(`Error bloqueando el post: ${response.status}`);
+      throw new Error(`Error bloqueando el comment: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -98,17 +99,17 @@ async function blockPost(postId) {
 }
 
 /* ====================================================
-   PUT: Activar un post
+   PUT: Activar un comment
 ==================================================== */
-async function activatePost(postId) {
-  const url = `${BASE_API_URL}/activar/${postId}`;
+async function activateComment(commentId) {
+  const url = `${BASE_API_URL}/activar/${commentId}`;
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: getToken()
     });
     if (!response.ok) {
-      throw new Error(`Error activando el post: ${response.status}`);
+      throw new Error(`Error activando el comment: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -118,17 +119,17 @@ async function activatePost(postId) {
 }
 
 /* ====================================================
-   PUT: Eliminar un post
+   PUT: Eliminar un comment
 ==================================================== */
-async function deletePost(postId) {
-  const url = `${BASE_API_URL}/eliminar/${postId}`;
+async function deleteComment(commentId) {
+  const url = `${BASE_API_URL}/eliminar/${commentId}`;
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: getToken()
     });
     if (!response.ok) {
-      throw new Error(`Error eliminando el post: ${response.status}`);
+      throw new Error(`Error eliminando el comment: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -138,26 +139,30 @@ async function deletePost(postId) {
 }
 
 /* ====================================================
-   POST: Crear un post (con envío de archivo usando FormData)
+   comment: Crear un comment (con envío de archivo usando FormData)
    
    Se espera que el parámetro "formData" sea un objeto FormData que
    incluya, por ejemplo:
      - description: string
      - FileDTO.image: File  (campo "image" dentro del objeto FileDTO)
 ==================================================== */
-async function createPost(formData) {
+async function createComment(idPost, text) {
   const url = `${BASE_API_URL}`;
   try {
     // No agregamos 'Content-Type' ya que fetch se encargará de establecerlo para FormData
     const response = await fetch(url, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${getToken()}`
       },
-      body: formData,
+      body: JSON.stringify({
+        idPost,
+        text 
+      })
     });
     if (!response.ok) {
-      throw new Error(`Error creando el post: ${response.status}`);
+      throw new Error(`Error creando el comment: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -167,10 +172,10 @@ async function createPost(formData) {
 }
 
 /* ====================================================
-   POST: Upload post (otra ruta para subir post, si es distinta)
+   comment: Upload comment (otra ruta para subir comment, si es distinta)
 ==================================================== */
-async function uploadPost(formData) {
-  const url = `${BASE_API_URL}/upload-post`;
+async function uploadComment(formData) {
+  const url = `${BASE_API_URL}/upload-comment`;
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -178,7 +183,7 @@ async function uploadPost(formData) {
       body: formData
     });
     if (!response.ok) {
-      throw new Error(`Error subiendo el post: ${response.status}`);
+      throw new Error(`Error subiendo el comment: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -191,12 +196,12 @@ async function uploadPost(formData) {
    Exportar funciones para su uso en otros scripts
 ==================================================== */
 export {
-  getPostsPaged,
-  getPostById,
-  updatePost,
-  blockPost,
-  activatePost,
-  deletePost,
-  createPost,
-  uploadPost
+  getCommentsPaged,
+  getCommentById,
+  updateComment,
+  blockComment,
+  activateComment,
+  deleteComment,
+  createComment,
+  uploadComment
 };
