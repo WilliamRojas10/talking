@@ -1,167 +1,169 @@
+import { getPostsPaged, createPost } from "../../services/Post.js";
+import { createReaction, getReactionsByPost } from "../../services/Reaction.js";
+import { getCommentsPaged, createComment } from "../../services/Comment.js";
+
 const postsContainer = document.querySelector(".section");
-const postsPerPage = 2; // Número de posts por página
+const postsPerPage = 10;
 let currentPage = 1;
 let totalRecords = 0;
+let isFetching = false;
 
-// Función para obtener posts paginados desde el backend
+// Obtener posts paginados
 async function fetchPosts(page) {
-    try {
-        const response = await fetch(`http://localhost:5296/api/Post/paginado?page=${page}&pageSize=${postsPerPage}`);
-        const data = await response.json();
-
-        totalRecords = data.totalRecords;
-        renderPosts(data.posts);
-        renderPagination();
-    } catch (error) {
-        console.error("Error al obtener los posts:", error);
-    }
+  try {
+    const response = await getPostsPaged(page, postsPerPage);
+    totalRecords = response.totalRecords;
+    renderPosts(response.posts);
+  } catch (error) {
+    console.error("Error al obtener los posts:", error);
+  }
 }
 
-// Función para renderizar los posts en el HTML
+// Renderizar los posts
 function renderPosts(posts) {
-    const postsHTML = posts.map(post => `
-        <article class="post">
-            <div class="container">
-                <div class="img-perfil">
-                    <img src="./images/perfil.png" alt="profile picture">
-                </div>
-                <a class="name-person" href="#">${post.nameUser} ${post.lastNameUser}</a>
-            </div>
-            <p class="description">${post.description}</p>
-            <div class="img-publication">
-                <img src="http://localhost:5296${post.path}" alt="publication image">
-            </div>
-            <div class="buttons-post">
-                <button>Reaccionar</button>
-                <button>Comentar</button>
-                <button>Compartir</button>
-            </div>
-        </article>
-    `).join("");
+  const postsHTML = posts.map(post => {
+    const likeReaction = post.reactions?.find(r => r.reactionStatus === 1);
+    const dislikeReaction = post.reactions?.find(r => r.reactionStatus === 2);
+    const likeCount = likeReaction ? likeReaction.count : 0;
+    const dislikeCount = dislikeReaction ? dislikeReaction.count : 0;
 
-    // Agregar los posts a la sección junto con el formulario para crear un nuevo post
-    postsContainer.innerHTML = `
-        <div class="my-post">
-            <div class="my-img-perfil">
-                <img src="./images/perfil.png" alt="profile picture">
-            </div>
-            <input class="input-description" type="text" placeholder="¿Qué estás pensando?">
-            <label for="file-upload" class="label-image">
-                <i class="bi bi-file-image"></i>
-            </label>
-            <input id="file-upload" type="file" accept="image/*" />
-            <button type="submit" id="send" class="send">
-                <i class="bi bi-send"></i>
-            </button>
+    return `
+      <article class="post">
+        <div class="container">
+          <div class="img-perfil">
+            <img src="./images/perfil.png" alt="profile picture">
+          </div>
+          <a class="name-person" href="#">${post.nameUser} ${post.lastNameUser}</a>
         </div>
-        ${postsHTML}
+        <p class="description">${post.description || ""}</p>
+        ${post.path ? `<div class="img-publication"><img src="http://localhost:5296${post.path}" alt="publication image"></div>` : ""}
+        <div class="buttons-post">
+          <div class="container-reactions">
+            <i class="recomendar bi bi-hand-thumbs-up" data-post-id="${post.idPost}" data-reaction-type="1"></i>
+            <span class="like-count">${likeCount}</span>
+            <i class="noMeGusta bi bi-hand-thumbs-down" data-post-id="${post.idPost}" data-reaction-type="2"></i>
+            <span class="dislike-count">${dislikeCount}</span>
+          </div>
+          <button class="comment-btn" data-post-id="${post.idPost}">Comentar</button>
+        </div>
+        <div class="comments-section" id="comments-${post.idPost}"></div>
+      </article>
     `;
+  }).join("");
 
-    // Volver a agregar eventos
-    setupFileUploadListener();
-    setupPostSubmitListener();
-}
-
-// Función para renderizar los botones de paginación
-function renderPagination() {
-    const paginationContainer = document.querySelector(".pagination");
-    if (!paginationContainer) {
-        const newPagination = document.createElement("div");
-        newPagination.classList.add("pagination");
-        postsContainer.appendChild(newPagination);
+  if (currentPage === 1) {
+    postsContainer.innerHTML = `
+      <div class="my-post">
+        <div class="my-img-perfil">
+          <img src="./images/perfil.png" alt="profile picture">
+        </div>
+        <input class="input-description" type="text" placeholder="¿Qué estás pensando?">
+        <label for="file-upload" class="label-image">
+          <i class="bi bi-file-image"></i>
+        </label>
+        <input id="file-upload" type="file" accept="image/*" />
+        <button type="submit" id="send" class="send">
+          <i class="bi bi-send"></i>
+        </button>
+      </div>
+      <div class="posts-list">
+        ${postsHTML}
+      </div>
+    `;
+  } else {
+    const postsList = postsContainer.querySelector(".posts-list");
+    if (postsList) {
+      postsList.insertAdjacentHTML("beforeend", postsHTML);
     }
+  }
 
-    const totalPages = Math.ceil(totalRecords / postsPerPage);
-    let buttonsHTML = "";
+  addReactionListeners();
+  setupFileUploadListener();
+  setupPostSubmitListener();
+  addCommentListeners();
+}
 
-    for (let i = 1; i <= totalPages; i++) {
-        buttonsHTML += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+// Escuchar eventos de clic en los botones de reacción
+function addReactionListeners() {
+  const reactionButtons = document.querySelectorAll(".container-reactions i");
+  reactionButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+      const idPost = button.getAttribute("data-post-id");
+      const idReaction = button.getAttribute("data-reaction-type");
+      try {
+        const response = await createReaction(idPost, idReaction);
+        if (response.success) {
+          fetchPosts(1);
+        } else {
+          alert("Error al crear la reacción: " + response.message);
+        }
+      } catch (error) {
+        alert("Error al crear la reacción.");
+      }
+    });
+  });
+}
+
+// Escuchar eventos de clic en el botón "Comentar"
+function addCommentListeners() {
+  const commentButtons = document.querySelectorAll(".comment-btn");
+  commentButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+      const postId = button.getAttribute("data-post-id");
+      const commentsSection = document.getElementById(`comments-${postId}`);
+      const comments = await getCommentsPaged(postId, 1, 5);
+      renderComments(comments, commentsSection);
+      setupCommentSubmitListener(postId, commentsSection);
+    });
+  });
+}
+
+// Renderizar comentarios
+function renderComments(comments, container) {
+  container.innerHTML = comments.map(comment => `
+    <div class="comment">
+      <strong>${comment.userName}</strong>
+      <p>${comment.text}</p>
+    </div>
+  `).join("");
+
+  container.innerHTML += `
+    <div class="comment-input">
+      <input type="text" placeholder="Escribe un comentario..." class="new-comment-input">
+      <button class="submit-comment">Enviar</button>
+    </div>
+  `;
+}
+
+// Manejar el envío de comentarios
+function setupCommentSubmitListener(postId, commentsContainer) {
+  const submitButton = commentsContainer.querySelector(".submit-comment");
+  const commentInput = commentsContainer.querySelector(".new-comment-input");
+  submitButton.addEventListener("click", async () => {
+    const commentText = commentInput.value;
+    if (!commentText) return;
+    try {
+      await createComment(postId, commentText);
+      commentInput.value = "";
+      const updatedComments = await getCommentsPaged(postId, 1, 5);
+      renderComments(updatedComments, commentsContainer);
+    } catch (error) {
+      alert("Error al enviar el comentario.");
     }
-
-    document.querySelector(".pagination").innerHTML = buttonsHTML;
+  });
 }
 
-// Función para cambiar de página
-function changePage(page) {
-    if (page < 1 || page > Math.ceil(totalRecords / postsPerPage)) return;
-    currentPage = page;
-    fetchPosts(currentPage);
-}
-
-// Configurar el evento para cambiar el color del ícono cuando se suba una imagen
-function setupFileUploadListener() {
-    const fileInput = document.getElementById("file-upload");
-    const icon = document.querySelector(".label-image i");
-
-    if (fileInput && icon) {
-        fileInput.addEventListener("change", function () {
-            if (fileInput.files.length > 0) {
-                icon.classList.add("active");
-            } else {
-                icon.classList.remove("active");
-            }
-        });
+// Scroll infinito
+window.addEventListener("scroll", () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+    if (!isFetching && currentPage * postsPerPage < totalRecords) {
+      isFetching = true;
+      currentPage++;
+      fetchPosts(currentPage).finally(() => {
+        isFetching = false;
+      });
     }
-}
-
-// Función para enviar un nuevo post con imagen y descripción
-function setupPostSubmitListener() {
-    const sendButton = document.getElementById("send");
-
-    if (sendButton) {
-        sendButton.addEventListener("click", async () => {
-            const description = document.querySelector(".input-description").value;
-            const fileInput = document.getElementById("file-upload");
-            const file = fileInput.files[0];
-
-            if (!description && !file) {
-                alert("Debe ingresar una descripción o subir una imagen.");
-                return;
-            }
-            
-
-            const formData = new FormData();
-            formData.append("description", description);
-            if (file) {
-                formData.append("image", file);  // La clave "image" debe coincidir con tu DTO
-            }
-
-            try {
-                const token = localStorage.getItem("token"); // Recuperar el token
-                if (!token) {
-                    console.error("No hay token disponible");
-                    return;
-                }
-        
-                const response = await fetch("http://localhost:5296/api/Post", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                       
-                        'Authorization': `Bearer ${token}` // Tu token
-                    }
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    alert("Post subido exitosamente.");
-                    fetchPosts(currentPage); // Recargar los posts
-                } else {
-                    
-                    alert("Error: " + result.message);
-                }
-            } catch (error) {
-                console.error("Error al subir el post:", error);
-            }
-        });
-    }
-}
-
-// Cargar los posts en la primera carga
-fetchPosts(currentPage);
-
-// Configurar los eventos una vez que el DOM esté completamente cargado
-document.addEventListener("DOMContentLoaded", () => {
-    setupFileUploadListener();
-    setupPostSubmitListener();
+  }
 });
+
+fetchPosts(currentPage);
