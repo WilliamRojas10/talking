@@ -1,10 +1,18 @@
+import { enviroment } from "./enviroment.js";
+const BASE_API_URL = enviroment.url + '/User';
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoid2lsbGlhbUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiVXNlcklkIjoiNCIsImV4cCI6MTczOTA1MTc2NiwiaXNzIjoiYXBpLnRhbGtpbmciLCJhdWQiOiJhcGkudGFsa2luZy51c2VycyJ9.iBGA7erHDA0FwqTZTTXqKouaGryxeoayEgxoK5JSwXA';
 
-
-export const pagedUser = async (page, pageSize) => {
+function getToken() {
+  const token = localStorage.getItem("token"); 
+  if (!token) {
+      console.error("No hay token disponible. getToken()");
+      return;
+  }
+  return token
+}
+async function getUsersPaged (page, pageSize) {
     try {
-        const response = await fetch(`http://localhost:5296/api/User/paginado?page=${page}&pageSize=${pageSize}`, {
+        const response = await fetch(`${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,115 +31,27 @@ export const pagedUser = async (page, pageSize) => {
     }
 }
 
-export const getById = async (id) => {
+async function getMyUserByLogin () {
         try {
-            const response = await fetch(`http://localhost:5296/api/User/${id}`, {
+            const response = await fetch(`${BASE_API_URL}/obtener-mi-usuario`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${getToken()}`
                 }
             });
-    
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.status}`);
+            const data = await response.json();
+            // console.log("Datos por usuario: ", data);
+            if (!data.success) {
+                throw new Error(`Error: ${response.message}`);
             }
-    
-            return await response.json();
+            return data;
         } catch (error) {
             console.error('Error:', error);
-            return null; // Para manejar errores sin romper el código
+            return null; 
         }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Base URL de la API (ajusta el puerto si es necesario)
-const BASE_API_URL = 'http://localhost:5296/api/User';
-
-// (Opcional) Si manejas autenticación con token JWT, almacénalo aquí o recupéralo de localStorage
-let authToken = ''; // Ejemplo: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-
-function getToken() {
-  const token = localStorage.getItem("token"); 
-  if (!token) {
-      console.error("No hay token disponible. getToken()");
-      return;
-  }
-  return token
-}
-
-
-/* ====================================================
-   GET: Obtener posts paginados
-==================================================== */
-async function getUsersPaged(page = 1, pageSize = 10) {
-  const url = `${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}`;
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-    });
-    if (!response.ok) {
-      throw new Error(`Error obteniendo users: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-/* ====================================================
-   GET: Obtener un post por ID
-==================================================== */
-async function getUserById(userId) {
-  const url = `${BASE_API_URL}/${userId}`;
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: getToken()
-    });
-    if (!response.ok) {
-      throw new Error(`Error obteniendo el user: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-/* ====================================================
-   PUT: Actualizar un post (modificar)
-==================================================== */
 async function updateUser(userId, userData) {
   const url = `${BASE_API_URL}/modificar/${userId}`;
   try {
@@ -150,74 +70,24 @@ async function updateUser(userId, userData) {
   }
 }
 
-/* ====================================================
-   PUT: Bloquear un post
-==================================================== */
-async function blockPost(postId) {
-  const url = `${BASE_API_URL}/bloquear/${postId}`;
-  try {
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: getToken()
-    });
-    if (!response.ok) {
-      throw new Error(`Error bloqueando el post: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
+// async function deletePost(postId) {
+//   const url = `${BASE_API_URL}/eliminar/${postId}`;
+//   try {
+//     const response = await fetch(url, {
+//       method: 'PUT',
+//       headers: getToken()
+//     });
+//     if (!response.ok) {
+//       throw new Error(`Error eliminando el post: ${response.status}`);
+//     }
+//     return await response.json();
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
 
-/* ====================================================
-   PUT: Activar un post
-==================================================== */
-async function activatePost(postId) {
-  const url = `${BASE_API_URL}/activar/${postId}`;
-  try {
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: getToken()
-    });
-    if (!response.ok) {
-      throw new Error(`Error activando el post: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
 
-/* ====================================================
-   PUT: Eliminar un post
-==================================================== */
-async function deletePost(postId) {
-  const url = `${BASE_API_URL}/eliminar/${postId}`;
-  try {
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: getToken()
-    });
-    if (!response.ok) {
-      throw new Error(`Error eliminando el post: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-/* ====================================================
-   POST: Crear un post (con envío de archivo usando FormData)
-   
-   Se espera que el parámetro "formData" sea un objeto FormData que
-   incluya, por ejemplo:
-     - description: string
-     - FileDTO.image: File  (campo "image" dentro del objeto FileDTO)
-==================================================== */
 async function createUser(data) {
   const url = `${BASE_API_URL}`;
   try {
@@ -239,37 +109,27 @@ async function createUser(data) {
   }
 }
 
-/* ====================================================
-   POST: Upload post (otra ruta para subir post, si es distinta)
-==================================================== */
-async function uploadPost(formData) {
-  const url = `${BASE_API_URL}/upload-post`;
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      body: formData
-    });
-    if (!response.ok) {
-      throw new Error(`Error subiendo el post: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
+// async function uploadPost(formData) {
+//   const url = `${BASE_API_URL}/upload-post`;
+//   try {
+//     const response = await fetch(url, {
+//       method: 'POST',
+//       headers: getAuthHeaders(),
+//       body: formData
+//     });
+//     if (!response.ok) {
+//       throw new Error(`Error subiendo el post: ${response.status}`);
+//     }
+//     return await response.json();
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
 
-/* ====================================================
-   Exportar funciones para su uso en otros scripts
-==================================================== */
 export {
   getUsersPaged,
-  getUserById,
   updateUser,
-  blockPost,
-  activatePost,
-  deletePost,
   createUser,
-  uploadPost
+  getMyUserByLogin
 };

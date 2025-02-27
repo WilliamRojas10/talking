@@ -1,6 +1,10 @@
+import { enviroment } from "./enviroment.js";
+const BASE_API_URL = enviroment.url + '/Login';
+
+
 export async function login(loginData) {
     try {
-        const response = await fetch("http://localhost:5296/Login", { 
+        const response = await fetch(BASE_API_URL, { 
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

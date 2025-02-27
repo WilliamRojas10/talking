@@ -1,9 +1,7 @@
-// Base URL de la API (ajusta el puerto si es necesario)
-const BASE_API_URL = 'http://localhost:5296/api/Comment';
+import { enviroment } from "./enviroment.js";
+const BASE_API_URL = enviroment.url + '/Comment';
 
-// (Opcional) Si manejas autenticación con token JWT, almacénalo aquí o recupéralo de localStorage
-let authToken = ''; // Ejemplo: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-
+// const BASE_API_URL = 'http://localhost:5296/api/Comment';
 function getToken() {
   const token = localStorage.getItem("token"); 
   if (!token) {
@@ -13,22 +11,17 @@ function getToken() {
   return token
 }
 
-
-/* ====================================================
-   GET: Obtener Comments paginados
-==================================================== */
-// http://localhost:5296/api/Comment/paginado?page=1&pageSize=10&idPost=1
 async function getCommentsPaged(idPost, page = 1, pageSize = 10) {
   const url = `${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}&idPost=${idPost}`;
   try {
     const response = await fetch(url, {
-      method: 'GET',
+      method: 'GET'
     });
-    if (!response.ok) { 
-      throw new Error(`Error obteniendo comments: ${response.status}`);
-    }
     const data = await response.json()
-    console.log("Response list comment: ",data)
+    if (!data.success) {
+      console.error(data.message)
+      return data
+    }
     return data
 
   } catch (error) {
@@ -37,9 +30,6 @@ async function getCommentsPaged(idPost, page = 1, pageSize = 10) {
   }
 }
 
-/* ====================================================
-   GET: Obtener un comment por ID
-==================================================== */
 async function getCommentById(commentId) {
   const url = `${BASE_API_URL}/${commentId}`;
   try {
@@ -56,10 +46,6 @@ async function getCommentById(commentId) {
     throw error;
   }
 }
-
-/* ====================================================
-   PUT: Actualizar un comment (modificar)
-==================================================== */
 async function updateComment(commentId, commentData) {
   const url = `${BASE_API_URL}/modificar/${commentId}`;
   try {
@@ -78,9 +64,6 @@ async function updateComment(commentId, commentData) {
   }
 }
 
-/* ====================================================
-   PUT: Bloquear un comment
-==================================================== */
 async function blockComment(commentId) {
   const url = `${BASE_API_URL}/bloquear/${commentId}`;
   try {
@@ -98,9 +81,6 @@ async function blockComment(commentId) {
   }
 }
 
-/* ====================================================
-   PUT: Activar un comment
-==================================================== */
 async function activateComment(commentId) {
   const url = `${BASE_API_URL}/activar/${commentId}`;
   try {
@@ -118,9 +98,6 @@ async function activateComment(commentId) {
   }
 }
 
-/* ====================================================
-   PUT: Eliminar un comment
-==================================================== */
 async function deleteComment(commentId) {
   const url = `${BASE_API_URL}/eliminar/${commentId}`;
   try {
@@ -138,14 +115,6 @@ async function deleteComment(commentId) {
   }
 }
 
-/* ====================================================
-   comment: Crear un comment (con envío de archivo usando FormData)
-   
-   Se espera que el parámetro "formData" sea un objeto FormData que
-   incluya, por ejemplo:
-     - description: string
-     - FileDTO.image: File  (campo "image" dentro del objeto FileDTO)
-==================================================== */
 async function createComment(idPost, text) {
   const url = `${BASE_API_URL}`;
   try {
@@ -171,9 +140,6 @@ async function createComment(idPost, text) {
   }
 }
 
-/* ====================================================
-   comment: Upload comment (otra ruta para subir comment, si es distinta)
-==================================================== */
 async function uploadComment(formData) {
   const url = `${BASE_API_URL}/upload-comment`;
   try {
@@ -192,9 +158,6 @@ async function uploadComment(formData) {
   }
 }
 
-/* ====================================================
-   Exportar funciones para su uso en otros scripts
-==================================================== */
 export {
   getCommentsPaged,
   getCommentById,

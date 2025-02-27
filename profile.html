@@ -10,99 +10,93 @@
     <link rel="icon" href="images/wechat.png">
 </head>
 
-<body >
+<body>
+    <div class="profile-page">
 
-    <header class="header">
-        <h1 class="title"><img src="images/wechat.png" class="speak" alt="">TALKING</h1>
-        <div class="perfil">
-            <div class="img-perfil">
-                <img src="./images/perfil.png" alt="profile picture">
+        <header class="animated-header">
+            <div class="animated-background">
+                <h1 class="text-welcome">Bienvenido a Talking</h1>
+                <div class="container-logo">
+                    <img class="animated-logo" src="images/wechat.png" alt="login-icon" />
+                </div>
             </div>
-            <a href="#">nombre de perfil</a>
-        </div>
-    </header>
-   
-          
-        
-        <div class="profile-picture">
-            
-            <div class="container-img">
-                <img src="./images/ciudad.jpeg" alt="profile picture">
-                
-            </div>
-
-                <h3>nombre de perfil</h3>
-        </div>
-
-
+        </header>
 
         <div class="profile">
             <div class="personal-information">
                 <p>Nombre</p>
                 <p>Apellido</p>
-                <p>Edad</p>
-                <p>Idiomas</p>
+                <p>Correo</p>
+                <p>Fecha nacimiento</p>
+                <p>Nacionalidad</p>
+                <p>Provincia</p>
             </div>
             <div class="container-publication">
-                        <div class="publication-space">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus consequuntur, voluptas inventore
+                <h2>No hay posteos</h2>
+                <!-- <div class="publication-space">
+                            <p class="descripcion">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus consequuntur, voluptas inventore
                                 error voluptates minus porro quod iste rem alias laboriosam. In dolorum reiciendis numquam
                                 molestiae ea cumque aut veritatis.</p>
                             <div class="container-img">
-                                <img src="./images/ciudad.jpeg" alt="profile picture">
-                            
+                                <img src="./images/ciudad.jpeg" alt="profile picture">     
                             </div>
-                        
-                            <button>eliminar</button>
+                            <button>Editar</button>            
+                            <button>Eliminar</button>
                         </div>
-                        <div class="publication-space" >
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus consequuntur, voluptas
-                                inventore error voluptates minus porro quod iste rem alias laboriosam. In dolorum reiciendis
-                                numquam molestiae ea cumque aut veritatis.</p>
+                        <div class="publication-space">
+                            <p class="descripcion">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus consequuntur, voluptas inventore
+                                error voluptates minus porro quod iste rem alias laboriosam. In dolorum reiciendis numquam
+                                molestiae ea cumque aut veritatis.</p>
                             <div class="container-img">
-                                <img src="./images/ciudad.jpeg" alt="profile picture">
-
+                                <img src="./images/ciudad.jpeg" alt="profile picture">     
                             </div>
-                            <button>eliminar</button>
-                        </div>
+                            <button>Editar</button>            
+                            <button>Eliminar</button>
+                        </div>-->
+                        <div class="container-pagination pagination">
+                            <span class="previous">Anterior</span>
+                            <span class="page-number">1</span>
+                            <span class="page-number">2</span>
+                            <span class="next">Siguiente</span>
+                        </div>  
             </div>
-            <div class="menu"> 
+            <nav class="menu">
+
                 <input type="checkbox" id="toggle-menu" class="toggle-input">
-                    <label for="toggle-menu" class="toggle-label">☰ </label>
-                    
-                    <ul id="list" class="list">
-                        <label for="toggle-menu" class="toggle-label-2">MENU</label>
-                        <li class="item">
-                            <a href="./login.html">Login</a>
-                        </li>
-                        <li class="item">
-                            <a href="./index.html">Inicio</a>
-                        </li>
-                        <li class="item">
-                            <a href="./meet.html">Conocer</a>
-                        </li>
-                        <li class="item">
-                            <a href="./profile.html">Perfil</a>
-                        </li>
-                        <li class="item">
-                            <a href="./courses.html">Cursos</a>
-                        </li>
-                        
-            </div>
-      
+                <label for="toggle-menu" class="toggle-label">☰ </label>
+
+                <ul id="list" class="list">
+                    <label for="toggle-menu" class="toggle-label-2">MENU</label>
+
+
+                    <li class="item">
+                        <a href="./index.html">Inicio</a>
+                    </li>
+
+                    <li class="item">
+                        <a href="./profile.html">Perfil</a>
+                    </li>
+                    <li class="item">
+                        <a href="./course.html">Cursos</a>
+                    </li>
+
+
+                </ul>
+            </nav>
+
         </div>
-    
-        <footer class="contact">
+
+        <!-- <footer class="contact">
             <a href="#">Whatsapp: 323232232</a>
             <a href="#">Facebook</a>
             <a href="#">Instagram</a>
             <a href="#">Sobre nosotros</a>
             <p>Desarrolladores: Arias Rodrigo, Garaycoechea Carolina, Rojas William</p>
-        </footer>
+        </footer> -->
 
-
-    <script src="./js/menu.js"></script>   
-   
+    </div>
+    <script src="./js/menu.js"></script>
+    <script type="module" src="./js/profile/Profile.js"></script>
 </body>
 
 </html>

@@ -5,6 +5,7 @@
     --font-color: black;
     --backgroud-color-secondary: #f8f8f8; 
 
+    font-family: Arial, Helvetica, sans-serif;
      /* --backgroud-color: #000000;
     --font-color: white;
     --backgroud-color-secondary: #2c2c2c;  */
@@ -298,7 +299,6 @@ label{
 }
 
 
-/* | */
 .index .main .section {
     display: flex;
     flex-direction: column;
@@ -540,44 +540,47 @@ label{
 
 
 /*---------------COURSES----------------*/
-.courses {
+.course-page{
+    border: solid 1px red;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.course-page .container-courses {
     display: flex;
     width: 70%;
     margin: 10px;
-}
+} 
 
-.cuadros {
+.course-page .container-courses .courses-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: center;
+
 }
 
-.titulo-cursos {
-    margin-top: 20px;
+.course-page .container-courses .courses-grid .course{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
-
-.boton {
+.course-page .container-courses .courses-grid .course img{
+    height: 100%;
     width: 100%;
-    text-align: center;
-    background-color: #7cd0ec;
-    border-radius: 10px 60px 30px;
-    color: aliceblue;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 20px;
+
 }
 
-.boton:hover {
-    background-color: #1c4c96;
+.course-page .container-courses .courses-grid .course .name{
+    font-weight: bold;
+}
+.title {
+    display: flex;
+    align-self: center;
 }
 
-.imagen img {
-    width: 100%;
-}
 
-/* Estilo para el contenedor de búsqueda */
 .search {
-    margin-top: 20px;
     text-align: center;
 }
 
@@ -604,89 +607,60 @@ label{
 
 
 /*----------------PROFILE----------------*/
-
-.background-image {
-    height: 200px;
-    margin-bottom: 150px;
-    /* background-image: url("../images/iphone8plusnegro.jpeg"); */
-    background-color: rgba(92, 118, 204, 0.568);
+.profile-page{
+    display: flex;
+    flex-direction: column;
 }
 
-.background-image img {
-    height: 100%;
-    width: 100%;
-}
 
-.profile-picture {
-    text-align: center;
-    position: absolute;
-    top: 100px;
-    /* Adjust the vertical position as necessary */
-    left: 50%;
-    /* Adjust the horizontal position as necessary*/
-    transform: translateX(-50%);
-}
-
-.profile-picture .container-img {
-    height: 200px;
-    width: 200px;
-}
-
-.profile-picture .container-img img {
-    border-radius: 50%;
-    height: 100%;
-    width: 100%;
-}
-
-.profile {
+.profile-page .profile {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    margin-top: 100px;
+    padding: 20px;
+
 }
 
-.personal-information {
+.profile-page .profile .personal-information {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    height: calc(100vh - 150px);
     border-radius: 20px;
     border: solid 1px rgba(128, 128, 128, 0.527);
     text-align: left;
-    /* Align text to the left */
-    height: calc(100vh - 380px);
-    margin-top: 100px;
-
+    gap: 10px;
+}
+.profile-page .profile .personal-information p span{
+    font-weight: bold;
+    color: var(--color-principal);
 }
 
-.container-publication {
+
+.profile-page .profile .container-publication {
     display: grid;
     gap: 15px;
     padding: 0 20px;
-    margin-top: 100px;
 }
 
-.container-publication .publication-space {
+.profile-page .profile .container-publication .publication-space {
     border: solid 1px rgba(128, 128, 128, 0.527);
     border-radius: 15px;
     padding: 10px;
 }
 
-.container-publication .publication-space .container-img {
-    min-height: 200px;
-    padding: 20px;
-    border-radius: 20px;
+.profile-page .profile .container-publication .publication-space .container-img {
+    min-height: 150px;
+    padding: 10px;
+    /* border-radius: 20px; */
 }
 
-.container-publication .publication-space .container-img img {
+.profile-page .profile .container-publication .publication-space .container-img img {
     height: 100%;
     max-width: 100%;
     object-fit: cover;
 }
 
-.titleT {
-    color: aliceblue;
-}
 
-.titulo {
-    padding: 25px;
-}
 
 
 /*========== LOGIN ==========*/
@@ -870,23 +844,24 @@ footer img {
     /*----Menu-----*/
     .menu {
         flex-direction: column;
-        
+        position: absolute;
         
     }
     .menu .list {
         display: none;
-        transition: all 0.3s ease;
+        transition: all 1s ease-in-out;
+
     }
      .menu .toggle-input:checked~.list {
         display: flex;
         transform: translateX(0%);
-        transition: all 0.5s ease;
+        transition: all 1s ease-in-out;
         background-color: rgb(122, 122, 141);
         height: 100vh;
         width: 70vw;
         z-index: 8;
 
-        position: absolute;
+        position: fixed;
         right: 0;
         top: 0;
         gap: 20px;
@@ -897,9 +872,9 @@ footer img {
     
     .menu .toggle-label {
         display: grid;
-        position:sticky;
-        top: 0px;
-        right: 0px;
+        position:absolute;
+        top: 30px;
+        right: 15px;
         z-index: 10;
         cursor: pointer;
         font-size: 30px;
@@ -921,14 +896,29 @@ footer img {
     }
 
     /*------------PROFILE-----------*/
-    .profile {
-        grid-template-columns: 1fr;
+    /* .profile-page{
+        display: flex;
+        flex-direction: column;
+    } */
+    
+    
+    .profile-page .profile {
+        display: grid;
+        grid-template-columns: 1fr ;
+        padding: 12px;
+        gap: 15px;
     }
-
-    .personal-information {
-        height: auto;
-        margin: 10px;
+    
+    .profile-page .profile .personal-information {
+        height:fit-content;
+    }    
+    
+    .profile-page .profile .container-publication {
+        padding: 0 ;
     }
+    
+    
+    
 
     /*========== REGISTER ==========*/
     .register-container {

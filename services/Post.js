@@ -1,8 +1,6 @@
-// Base URL de la API (ajusta el puerto si es necesario)
-const BASE_API_URL = 'http://localhost:5296/api/Post';
-
-// (Opcional) Si manejas autenticación con token JWT, almacénalo aquí o recupéralo de localStorage
-let authToken = ''; // Ejemplo: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+import { enviroment } from "./enviroment.js";
+const BASE_API_URL = enviroment.url + '/Post';
+// const BASE_API_URL = 'http://localhost:5296/api/Post';
 
 function getToken() {
   const token = localStorage.getItem("token"); 
@@ -12,22 +10,19 @@ function getToken() {
   }
   return token
 }
+// http://localhost:5296/api/Post/paginado?page=1&pageSize=10&orden=desc
 
-
-/* ====================================================
-   GET: Obtener posts paginados
-==================================================== */
 async function getPostsPaged(page = 1, pageSize = 10) {
-  const url = `${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}`;
+  const url = `${BASE_API_URL}/paginado?page=${page}&pageSize=${pageSize}&orden=desc`;
   try {
     const response = await fetch(url, {
       method: 'GET',
     });
-    if (!response.ok) { 
-      throw new Error(`Error obteniendo posts: ${response.status}`);
-    }
     const data = await response.json()
-    console.log("Response list post: ",data)
+    if (!data.success) {
+      // throw new Error(`Error obteniendo posts: ${response.status}`);
+      console.error(data.message)
+    }  
     return data
 
   } catch (error) {
@@ -36,9 +31,6 @@ async function getPostsPaged(page = 1, pageSize = 10) {
   }
 }
 
-/* ====================================================
-   GET: Obtener un post por ID
-==================================================== */
 async function getPostById(postId) {
   const url = `${BASE_API_URL}/${postId}`;
   try {
@@ -56,9 +48,6 @@ async function getPostById(postId) {
   }
 }
 
-/* ====================================================
-   PUT: Actualizar un post (modificar)
-==================================================== */
 async function updatePost(postId, postData) {
   const url = `${BASE_API_URL}/modificar/${postId}`;
   try {
@@ -77,74 +66,51 @@ async function updatePost(postId, postData) {
   }
 }
 
-/* ====================================================
-   PUT: Bloquear un post
-==================================================== */
-async function blockPost(postId) {
-  const url = `${BASE_API_URL}/bloquear/${postId}`;
-  try {
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: getToken()
-    });
-    if (!response.ok) {
-      throw new Error(`Error bloqueando el post: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-/* ====================================================
-   PUT: Activar un post
-==================================================== */
-async function activatePost(postId) {
-  const url = `${BASE_API_URL}/activar/${postId}`;
-  try {
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: getToken()
-    });
-    if (!response.ok) {
-      throw new Error(`Error activando el post: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-/* ====================================================
-   PUT: Eliminar un post
-==================================================== */
 async function deletePost(postId) {
-  const url = `${BASE_API_URL}/eliminar/${postId}`;
+  const url = `${BASE_API_URL}/${postId}`;
   try {
     const response = await fetch(url, {
-      method: 'PUT',
-      headers: getToken()
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json", 
+        "Authorization": `Bearer ${getToken()}`
+      }
     });
-    if (!response.ok) {
-      throw new Error(`Error eliminando el post: ${response.status}`);
+    const data = await response.json()
+    if (!data.success) {
+      // throw new Error(`${response.message}`);
+      console.error(data.message)
+      alert(data.message)
     }
-    return await response.json();
+    else {
+      alert(data.message)
+      return data;
+    }
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
 
-/* ====================================================
-   POST: Crear un post (con envío de archivo usando FormData)
-   
-   Se espera que el parámetro "formData" sea un objeto FormData que
-   incluya, por ejemplo:
-     - description: string
-     - FileDTO.image: File  (campo "image" dentro del objeto FileDTO)
-==================================================== */
+
+// export async function deletePost(postId) {
+//   try {
+//       const response = await fetch(`http://localhost:5296/api/posts/${postId}`, {
+//           method: "DELETE",
+//           headers: {
+//               "Content-Type": "application/json"
+//               // Si usas un token, asegúrate de que esté definido y sea string:
+//               // "Authorization": `Bearer ${token}`
+//           }
+//       });
+//       return await response.json();
+//   } catch (error) {
+//       console.error("Error en la eliminación:", error);
+//       return { success: false, message: "Error en la solicitud" };
+//   }
+// }
+
+
 async function createPost(formData) {
   const url = `${BASE_API_URL}`;
   try {
@@ -166,9 +132,6 @@ async function createPost(formData) {
   }
 }
 
-/* ====================================================
-   POST: Upload post (otra ruta para subir post, si es distinta)
-==================================================== */
 async function uploadPost(formData) {
   const url = `${BASE_API_URL}/upload-post`;
   try {
@@ -187,15 +150,38 @@ async function uploadPost(formData) {
   }
 }
 
-/* ====================================================
-   Exportar funciones para su uso en otros scripts
-==================================================== */
+
+async function getMyPostsPaged(page = 1, pageSize = 10) {
+  const url = `${BASE_API_URL}/obtener-mis-posteos?page=${page}&pageSize=${pageSize}&orden=desc`;
+  // console.log("url de post: ",url)
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${getToken()}`
+      },
+    });
+    const data = await response.json()
+    if (!data.success) {
+      console.error(data.message)
+      // alert(data.message)
+      // throw new Error(`Error obteniendo posts: ${response.status}`);
+    }
+    return data
+
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+
+
 export {
   getPostsPaged,
+  getMyPostsPaged,
   getPostById,
   updatePost,
-  blockPost,
-  activatePost,
   deletePost,
   createPost,
   uploadPost
